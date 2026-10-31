@@ -1,35 +1,66 @@
-name: Build NAMBI App
+name: Build NAMBI App and Website
+
 on:
-  push:
-    branches: [ main ]
+push:
+branches:
+- main
+workflow_dispatch:
+
+permissions:
+contents: read
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+build:
+runs-on: ubuntu-latest
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
+steps:
+  - name: Checkout Repository
+    uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.22.0'
-          channel: 'stable'
+  - name: Setup Java
+    uses: actions/setup-java@v4
+    with:
+      distribution: temurin
+      java-version: '17'
 
-      - name: Get packages
-        run: flutter pub get
+  - name: Setup Flutter
+    uses: subosito/flutter-action@v2
+    with:
+      flutter-version: '3.22.0'
+      channel: stable
+      cache: true
 
-      - name: Build APK
-        run: flutter build apk --release
+  - name: Check Project
+    run: |
+      test -f pubspec.yaml
+      test -f lib/main.dart
+      echo "NAMBI project files found"
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: NAMBI-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
+  - name: Check Android and Web Platforms
+    run: |
+      if [ ! -d android ] || [ ! -d web ]; then
+        flutter create --platforms=android,web --org com.nambi.app --project-name nambi_app --no-pub .
+      fi
+
+  - name: Get Dependencies
+    run: flutter pub get
+
+  - name: Build Android APK
+    run: flutter build apk --release
+
+  - name: Build NAMBI Website
+    run: flutter build web --release
+
+  - name: Upload Android APK
+    uses: actions/upload-artifact@v4
+    with:
+      name: NAMBI-ANDROID-APK
+      path: build/app/outputs/flutter-apk/app-release.apk
+      if-no-files-found: error
+
+  - name: Upload Website
+    uses: actions/upload-artifact@v4
+    with:
+      name: NAMBI-WEBSITE
+      path: build/web/
+      if-no-files-found: error
