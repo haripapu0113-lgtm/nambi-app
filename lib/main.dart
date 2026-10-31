@@ -1,36 +1,20 @@
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const NambiApp());
 }
 
-const Color gold = Color(0xFFD6B45C);
-const Color black = Color(0xFF101010);
-const Color panel = Color(0xFF202020);
-
 class NambiApp extends StatelessWidget {
   const NambiApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'NAMBI Secure',
       debugShowCheckedModeBanner: false,
-      title: 'NAMBI AI',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: black,
-        colorScheme: const ColorScheme.dark(
-          primary: gold,
-          secondary: gold,
-          surface: panel,
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: black,
-          foregroundColor: gold,
-          elevation: 0,
-        ),
-      ),
+      theme: ThemeData(useMaterial3: true, brightness: Brightness.dark, scaffoldBackgroundColor: Colors.black),
       home: const NambiHome(),
     );
   }
@@ -38,546 +22,272 @@ class NambiApp extends StatelessWidget {
 
 class NambiHome extends StatefulWidget {
   const NambiHome({super.key});
-
   @override
   State<NambiHome> createState() => _NambiHomeState();
 }
 
 class _NambiHomeState extends State<NambiHome> {
-  int selectedIndex = 0;
+  String lang = 'tanglish'; // tamil, english, tanglish, hindi
+  int todayCount = 0;
+  bool isPremium = false;
+  final int dailyLimit = 20;
 
-  final List<Widget> pages = const [
-    HomePage(),
-    ChatPage(),
-    AssessmentPage(),
-    SettingsPage(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Row(
-          children: [
-            Icon(Icons.workspace_premium, size: 30),
-            SizedBox(width: 10),
-            Text(
-              'NAMBI',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                letterSpacing: 3,
-                fontSize: 23,
-              ),
-            ),
-            SizedBox(width: 6),
-            Text(
-              'AI',
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 18),
-            child: Icon(Icons.shield_outlined),
-          ),
-        ],
-      ),
-      body: pages[selectedIndex],
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: panel,
-        indicatorColor: gold.withOpacity(0.18),
-        selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() => selectedIndex = index);
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home, color: gold),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.chat_outlined),
-            selectedIcon: Icon(Icons.chat, color: gold),
-            label: 'Chat',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.psychology_outlined),
-            selectedIcon: Icon(Icons.psychology, color: gold),
-            label: 'Assess',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings, color: gold),
-            label: 'Settings',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// HOME SCREEN
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(20),
-      children: [
-        const SizedBox(height: 12),
-
-        const Text(
-          'Hello! Welcome to NAMBI.',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        const SizedBox(height: 10),
-
-        const Text(
-          'Your Intelligence. Your Privacy.',
-          style: TextStyle(color: gold, fontSize: 15),
-        ),
-
-        const SizedBox(height: 28),
-
-        const ChatInput(),
-
-        const SizedBox(height: 30),
-
-        const Text(
-          'Explore NAMBI',
-          style: TextStyle(
-            fontSize: 21,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        const SizedBox(height: 16),
-
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 1.2,
-          children: const [
-            FeatureCard(
-              title: 'NAMBI Chat',
-              description: 'Ask anything',
-              icon: Icons.chat_bubble_outline,
-            ),
-            FeatureCard(
-              title: 'NAMBI Work',
-              description: 'Office assistant',
-              icon: Icons.work_outline,
-            ),
-            FeatureCard(
-              title: 'NAMBI Assess',
-              description: 'Tests and practice',
-              icon: Icons.psychology_outlined,
-            ),
-            FeatureCard(
-              title: 'NAMBI Learn',
-              description: 'Learn anything',
-              icon: Icons.school_outlined,
-            ),
-            FeatureCard(
-              title: 'NAMBI Career',
-              description: 'Jobs and interviews',
-              icon: Icons.business_center_outlined,
-            ),
-            FeatureCard(
-              title: 'NAMBI Business',
-              description: 'Business assistant',
-              icon: Icons.store_outlined,
-            ),
-          ],
-        ),
-
-        const SizedBox(height: 28),
-
-        const Center(
-          child: Text(
-            'POWERED BY NAMBI TECHNOLOGIES',
-            style: TextStyle(
-              color: gold,
-              fontSize: 11,
-              letterSpacing: 2,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// CHAT INPUT
-
-class ChatInput extends StatefulWidget {
-  const ChatInput({super.key});
-
-  @override
-  State<ChatInput> createState() => _ChatInputState();
-}
-
-class _ChatInputState extends State<ChatInput> {
-  final controller = TextEditingController();
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: panel,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: gold.withOpacity(0.5)),
-      ),
-      child: Column(
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.auto_awesome, color: gold),
-              SizedBox(width: 10),
-              Text(
-                'Ask NAMBI anything',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          TextField(
-            controller: controller,
-            minLines: 1,
-            maxLines: 3,
-            decoration: InputDecoration(
-              hintText: 'Ask in Tamil or English...',
-              filled: true,
-              fillColor: black,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.arrow_upward, color: gold),
-                onPressed: () {
-                  if (controller.text.trim().isEmpty) return;
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ChatPage(
-                        initialMessage: controller.text.trim(),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// FEATURE CARDS
-
-class FeatureCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final IconData icon;
-
-  const FeatureCard({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => FeaturePage(title: title),
-          ),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: panel,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: gold.withOpacity(0.35),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: gold, size: 32),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              description,
-              style: const TextStyle(
-                color: Colors.white60,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// CHAT PAGE - LOCAL UI PROTOTYPE
-
-class ChatPage extends StatefulWidget {
-  final String? initialMessage;
-
-  const ChatPage({super.key, this.initialMessage});
-
-  @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
-  final controller = TextEditingController();
-  final List<String> messages = [];
+  Map<String, Map<String, String>> t = {
+    'tamil': {
+      'title': 'NAMBI',
+      'subtitle': '100% பாதுகாப்பானது - உங்கள் போட்டோ யாருக்கும் போகாது',
+      'secure': '🔒 பாதுகாப்பு உத்தரவாதம்',
+      'p1': '✓ உங்கள் டேட்டாவை யாருக்கும் கொடுக்க மாட்டோம்',
+      'p2': '✓ 24 மணி நேரத்தில் ஆட்டோ டெலிட்',
+      'p3': '✓ AI ட்ரெயினிங்கிற்கு பயன்படுத்த மாட்டோம்',
+      'count': 'இன்று',
+      'free': 'இலவசம்',
+      'create': 'புது போட்டோ உருவாக்கு',
+      'edit': 'போட்டோ எடிட் பண்ணு',
+      'limitOver': 'டேய் 20 முடிஞ்சிடுச்சு!',
+      'payMsg': 'நாளைக்கு ஃப்ரீயா வரும், இல்ல 49 ரூபாயில் 90 நாள் அன்லிமிடெட் எடுத்துக்கோ',
+      'payBtn': '49 ரூபாய் - 90 நாள் செலுத்து',
+    },
+    'english': {
+      'title': 'NAMBI',
+      'subtitle': '100% Secure - Your photo never goes to anyone',
+      'secure': '🔒 SECURE PROMISE',
+      'p1': '✓ We never share your data',
+      'p2': '✓ Auto-delete in 24 hours',
+      'p3': '✓ Never used for AI training',
+      'count': 'Today',
+      'free': 'FREE',
+      'create': 'Create New Photo',
+      'edit': 'Edit Photo',
+      'limitOver': 'Daily limit over da!',
+      'payMsg': 'Comes free tomorrow, or get 90 days unlimited for Rs.49',
+      'payBtn': 'Pay Rs.49 - 90 Days',
+    },
+    'tanglish': {
+      'title': 'NAMBI',
+      'subtitle': '100% Secure da - Un Photo Yaarukkum Pogathu da',
+      'secure': '🔒 SECURE DA - NAMBALAM',
+      'p1': '✓ Un data va yaarukkum tharamattom da',
+      'p2': '✓ 24 hours la auto delete aagidum da',
+      'p3': '✓ AI training ku use pannamattom da',
+      'count': 'Innaiku',
+      'free': 'FREE da',
+      'create': 'Pudhu Photo Create Pannu da',
+      'edit': 'Photo Edit Pannu da',
+      'limitOver': 'Dei 20 mudinjiduchu da!',
+      'payMsg': 'Nalaiku free ah varum da, illa 49 Rs la 90 days unlimited eduthukko da!',
+      'payBtn': 'Pay 49 Rs - 90 Days da',
+    },
+    'hindi': {
+      'title': 'NAMBI',
+      'subtitle': '100% सुरक्षित - आपका फोटो किसी को नहीं जाएगा',
+      'secure': '🔒 सुरक्षित वादा',
+      'p1': '✓ आपका डेटा किसी को नहीं देंगे',
+      'p2': '✓ 24 घंटे में ऑटो डिलीट',
+      'p3': '✓ AI ट्रेनिंग के लिए उपयोग नहीं करेंगे',
+      'count': 'आज',
+      'free': 'फ्री',
+      'create': 'नया फोटो बनाएं',
+      'edit': 'फोटो एडिट करें',
+      'limitOver': 'आज की लिमिट खत्म!',
+      'payMsg': 'कल फ्री आएगा, या 49 रुपये में 90 दिन अनलिमिटेड लें',
+      'payBtn': '49 रुपये दें - 90 दिन',
+    },
+  };
 
   @override
   void initState() {
     super.initState();
+    loadCount();
+  }
 
-    if (widget.initialMessage != null) {
-      messages.add(widget.initialMessage!);
+  Future<void> loadCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    String lastDate = prefs.getString('lastDate') ?? '';
+    if (lastDate != today) {
+      await prefs.setString('lastDate', today);
+      await prefs.setInt('todayCount', 0);
+      setState(() => todayCount = 0);
+    } else {
+      setState(() => todayCount = prefs.getInt('todayCount') ?? 0);
+    }
+    setState(() => isPremium = prefs.getBool('isPremium') ?? false);
+  }
+
+  Future<void> useOne() async {
+    if (isPremium) return;
+    if (todayCount >= dailyLimit) {
+      showPaywall();
+      return;
+    }
+    final prefs = await SharedPreferences.getInstance();
+    setState(() => todayCount++);
+    await prefs.setInt('todayCount', todayCount);
+  }
+
+  void showPaywall() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Color(0xFF1A1A1A),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+      builder: (_) => Padding(
+        padding: EdgeInsets.all(25),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(t[lang]!['limitOver']!, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
+            SizedBox(height: 10),
+            Text(t[lang]!['payMsg']!, textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
+            SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(15), border: Border.all(color: Color(0xFFFFD700))),
+              child: Column(children: [
+                Text('🔒 100% Secure & Private', style: TextStyle(color: Color(0xFFFFD700), fontWeight: FontWeight.bold)),
+                SizedBox(height: 8),
+                Text('✓ Unlimited Photos\n✓ HD Quality\n✓ No Watermark\n✓ Auto-delete still ON', style: TextStyle(color: Colors.white70, fontSize: 13)),
+              ]),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFFFD700), padding: EdgeInsets.symmetric(vertical: 15), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                onPressed: () => payNow(),
+                child: Text(t[lang]!['payBtn']!, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> payNow() async {
+    // Razorpay Payment Link - un link ah inga maathu da
+    final Uri url = Uri.parse('https://rzp.io/l/YOUR_PAYMENT_LINK');
+    // For testing, open UPI
+    // final Uri upi = Uri.parse('upi://pay?pa=your-upi@okicici&pn=NAMBI&am=49&cu=INR');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      // Fallback - mark premium locally for demo
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isPremium', true);
+      setState(() => isPremium = true);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Premium Activated da! (Demo)')));
     }
   }
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  void sendMessage() {
-    final value = controller.text.trim();
-    if (value.isEmpty) return;
-
-    setState(() {
-      messages.add(value);
-      controller.clear();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('NAMBI Chat')),
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(16),
-            child: Text(
-              'Hello! I am NAMBI. How can I help you?',
-              style: TextStyle(color: gold),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                return Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: panel,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Text(messages[index]),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: TextField(
-              controller: controller,
-              onSubmitted: (_) => sendMessage(),
-              decoration: InputDecoration(
-                hintText: 'Type your message...',
-                suffixIcon: IconButton(
-                  onPressed: sendMessage,
-                  icon: const Icon(Icons.send, color: gold),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ASSESSMENT PAGE
-
-class AssessmentPage extends StatelessWidget {
-  const AssessmentPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final tests = [
-      'Aptitude Practice',
-      'Logical Reasoning',
-      'Numerical Ability',
-      'English Assessment',
-      'Interview Preparation',
-    ];
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('NAMBI Assess')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const Text(
-            'Improve your skills with practice.',
-            style: TextStyle(color: gold, fontSize: 17),
-          ),
-          const SizedBox(height: 18),
-          ...tests.map(
-            (test) => Card(
-              color: panel,
-              child: ListTile(
-                leading: const Icon(
-                  Icons.quiz_outlined,
-                  color: gold,
-                ),
-                title: Text(test),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => FeaturePage(title: test),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// SETTINGS
-
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(20),
-      children: const [
-        Text(
-          'NAMBI Settings',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 20),
-        ListTile(
-          leading: Icon(Icons.language, color: gold),
-          title: Text('Language'),
-          subtitle: Text('Tamil / English'),
-        ),
-        ListTile(
-          leading: Icon(Icons.lock_outline, color: gold),
-          title: Text('Privacy'),
-          subtitle: Text('Privacy controls and data settings'),
-        ),
-        ListTile(
-          leading: Icon(Icons.info_outline, color: gold),
-          title: Text('About NAMBI'),
-          subtitle: Text('Your Intelligence. Your Privacy.'),
-        ),
-      ],
-    );
-  }
-}
-
-// FEATURE PLACEHOLDER
-
-class FeaturePage extends StatelessWidget {
-  final String title;
-
-  const FeaturePage({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.auto_awesome,
-                color: gold,
-                size: 60,
+              // Language Switcher
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                langBtn('tamil', 'தமிழ்'),
+                langBtn('tanglish', 'Tanglish'),
+                langBtn('english', 'English'),
+                langBtn('hindi', 'हिंदी'),
+              ]),
+              SizedBox(height: 25),
+              // Logo
+              Container(
+                width: 100, height: 100,
+                decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(25), border: Border.all(color: Color(0xFFFFD700), width: 2)),
+                child: Stack(alignment: Alignment.center, children: [
+                  Text('N', style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold, color: Color(0xFFFFD700))),
+                  Positioned(top: 5, child: Text('👑', style: TextStyle(fontSize: 20))),
+                ]),
               ),
-              const SizedBox(height: 18),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
+              SizedBox(height: 15),
+              Text(t[lang]!['title']!, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 4, color: Colors.white)),
+              Text(t[lang]!['subtitle']!, textAlign: TextAlign.center, style: TextStyle(color: Colors.grey, fontSize: 13)),
+              SizedBox(height: 20),
+              // Count Card
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(18),
+                decoration: BoxDecoration(color: Color(0xFF1A1A1A), borderRadius: BorderRadius.circular(15)),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text('${t[lang]!['count']}: $todayCount / $dailyLimit', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                    Text(isPremium ? 'Premium Active da! Unlimited' : '${dailyLimit - todayCount} ${t[lang]!['free']}', style: TextStyle(color: isPremium ? Color(0xFFFFD700) : Colors.green)),
+                  ]),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    decoration: BoxDecoration(color: todayCount >= dailyLimit && !isPremium ? Colors.red : Color(0xFFFFD700), borderRadius: BorderRadius.circular(20)),
+                    child: Text(todayCount >= dailyLimit && !isPremium ? 'LIMIT OVER' : 'ACTIVE', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12)),
+                  ),
+                ]),
               ),
-              const SizedBox(height: 10),
-              const Text(
-                'This NAMBI feature is under development.',
-                textAlign: TextAlign.center,
+              SizedBox(height: 20),
+              // Create & Edit Buttons
+              Row(children: [
+                Expanded(child: actionBtn(Icons.auto_awesome, t[lang]!['create']!, () => useOne())),
+                SizedBox(width: 12),
+                Expanded(child: actionBtn(Icons.edit, t[lang]!['edit']!, () => useOne())),
+              ]),
+              SizedBox(height: 25),
+              // Secure Card - MAIN USP
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(color: Color(0xFF111111), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(t[lang]!['secure']!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFFFFD700))),
+                  SizedBox(height: 12),
+                  secureRow(t[lang]!['p1']!),
+                  secureRow(t[lang]!['p2']!),
+                  secureRow(t[lang]!['p3']!),
+                  SizedBox(height: 10),
+                  Text('Your data stays yours. We never sell. Never share.', style: TextStyle(color: Colors.white38, fontSize: 11)),
+                ]),
               ),
+              SizedBox(height: 20),
+              Text('App + Website Same Code | Works Everywhere', style: TextStyle(color: Colors.white24, fontSize: 10)),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget langBtn(String code, String label) {
+    bool sel = lang == code;
+    return GestureDetector(
+      onTap: () => setState(() => lang = code),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(color: sel ? Color(0xFFFFD700) : Colors.white10, borderRadius: BorderRadius.circular(20)),
+        child: Text(label, style: TextStyle(color: sel ? Colors.black : Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+
+  Widget actionBtn(IconData icon, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        decoration: BoxDecoration(color: Color(0xFFFFD700), borderRadius: BorderRadius.circular(18)),
+        child: Column(children: [
+          Icon(icon, color: Colors.black, size: 28),
+          SizedBox(height: 6),
+          Text(label, textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12)),
+        ]),
+      ),
+    );
+  }
+
+  Widget secureRow(String txt) {
+    return Padding(padding: EdgeInsets.symmetric(vertical: 4), child: Text(txt, style: TextStyle(color: Colors.white70, fontSize: 13)));
   }
 }
