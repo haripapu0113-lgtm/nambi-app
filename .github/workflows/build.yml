@@ -1,9 +1,7 @@
 name: Build NAMBI APK
-
 on:
   push:
     branches: [ main ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,16 +19,30 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Check files
+        run: ls -la && ls -la lib/ && ls -la assets/ || echo "assets missing"
+
       - name: Backup main.dart
-        run: cp lib/main.dart /tmp/main.dart.bak
+        run: |
+          if [ -f lib/main.dart ]; then cp lib/main.dart /tmp/main.dart.bak; echo "backed up"; else echo "no main.dart"; fi
 
       - name: Create android folder
         run: flutter create --platforms=android --org com.nambi.app --project-name nambi_app . --no-pub
 
       - name: Restore main.dart
-        run: cp /tmp/main.dart.bak lib/main.dart
+        run: |
+          if [ -f /tmp/main.dart.bak ]; then cp /tmp/main.dart.bak lib/main.dart; echo "restored"; fi
 
       - run: flutter pub get
+      
+      - name: Generate icon if exists
+        run: |
+          if [ -f assets/icon.png ]; then
+            dart run flutter_launcher_icons
+          else
+            echo "icon.png not found, skipping icon generation"
+          fi
+
       - run: flutter build apk --release
 
       - uses: actions/upload-artifact@v4
