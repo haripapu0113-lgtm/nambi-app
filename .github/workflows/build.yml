@@ -1,27 +1,52 @@
-name: Build NAMBI APK
+name: workflow for NAMBI APK
+
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: subosito/flutter-action@v2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0'
           channel: 'stable'
-      - run: |
-          cp lib/main.dart /tmp/bak.dart || true
-          flutter create --platforms=android . --org com.nambi.app --project-name nambi_app
-          cp /tmp/bak.dart lib/main.dart || true
-      - run: flutter pub get
-      - run: flutter build apk --release
-      - uses: actions/upload-artifact@v4
+          cache: true
+
+      - name: Check main.dart
+        run: |
+          ls -la
+          ls -la lib/ || echo "lib missing"
+          cat lib/main.dart | head -20 || echo "no main.dart"
+
+      - name: Fix Android folder
+        run: |
+          if [ ! -d android ]; then
+            echo "Creating android folder..."
+            flutter create --platforms=android --org com.nambi.app --project-name nambi_app . --no-pub
+          fi
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release --verbose
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: NAMBI-APK
           path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
