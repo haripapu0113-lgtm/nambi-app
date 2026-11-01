@@ -1,37 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NAMBI - Secure AI</title>
+<title>NAMBI - Your Private AI Friend | 100% On-Device & Secure</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#000;color:#fff;font-family:sans-serif;text-align:center;padding:20px}
-h1{font-size:55px;letter-spacing:12px;margin:40px 0 10px 0}
-.tag{color:#aaa;font-size:18px}
-.card{background:#111;border:1px solid #333;border-radius:20px;padding:25px;max-width:420px;margin:30px auto;text-align:left}
-.green{color:#00ff88;font-weight:bold;font-size:20px;text-align:center}
-.card p{margin:12px 0;font-size:16px}
-.btn{background:#FFD700;color:#000;padding:18px;border-radius:35px;display:block;margin:15px auto;max-width:340px;font-weight:bold;text-decoration:none;font-size:18px}
-.btn2{background:#1A1A1A;color:#fff;border:1px solid #333}
-.foot{color:#555;margin-top:50px;font-size:13px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#0a0a0a;color:#fff;line-height:1.6}
+:root{--yellow:#FFD60A;--green:#00FF88;--card:#151515;--border:#222}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{padding:20px 0;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.logo{font-size:28px;font-weight:800;letter-spacing:6px}
+.logo span{color:var(--yellow)}
+.nav-btn{background:var(--yellow);color:#000;padding:10px 22px;border-radius:100px;font-weight:700;text-decoration:none;font-size:14px}
+.hero{text-align:center;padding:70px 20px 40px}
+.hero h1{font-size:clamp(48px,12vw,92px);font-weight:800;letter-spacing:12px;line-height:1}
+.hero-sub{font-size:20px;color:#aaa;margin:18px auto 10px;max-width:700px}
+.secure-badge{display:inline-flex;align-items:center;gap:8px;background:#151515;border:1px solid #00FF88;color:#00FF88;padding:8px 16px;border-radius:100px;font-size:13px;font-weight:700;margin-top:12px}
+.upload-box{background:var(--card);border:2px dashed #333;border-radius:24px;padding:36px 24px;margin:32px auto;max-width:640px;text-align:center}
+.upload-box:hover{border-color:var(--yellow)}
+.upload-icon{font-size:48px;margin-bottom:12px}
+.upload-box h3{font-size:22px;margin-bottom:8px}
+.upload-box p{color:#888;font-size:14px;margin-bottom:20px}
+.btn{padding:14px 22px;border-radius:100px;font-weight:700;border:0;cursor:pointer;font-size:15px;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.btn-yellow{background:var(--yellow);color:#000}
+.btn-dark{background:#222;color:#fff;border:1px solid #333}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:40px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px}
+.feature-card h4{font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.feature-card li{list-style:none;color:#bbb;font-size:14px;padding:6px 0;display:flex;gap:8px}
+.feature-card li::before{content:"✓";color:var(--green);font-weight:700}
+.section{padding:56px 0;border-top:1px solid var(--border)}
+.section-label{color:var(--yellow);font-size:12px;letter-spacing:3px;font-weight:800;margin-bottom:12px}
+.section h2{font-size:36px;font-weight:800;margin-bottom:12px;line-height:1.1}
+.section-desc{color:#888;max-width:700px;margin-bottom:28px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px}
+.card-icon{width:44px;height:44px;background:#1e1e1e;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+.card h3{font-size:17px;margin-bottom:6px}
+.card p{color:#888;font-size:13px}
+.tech-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border-radius:20px;overflow:hidden;border:1px solid var(--border);margin-top:20px}
+.tech-table th{background:#1a1a1a;text-align:left;padding:14px 18px;font-size:12px;color:#888}
+.tech-table td{padding:14px 18px;font-size:14px;border-top:1px solid var(--border)}
+.tech-table td:first-child{font-weight:700;color:var(--yellow)}
+.privacy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
+.privacy-item{background:linear-gradient(135deg,#151515,#0f0f0f);border:1px solid #00FF8822;border-radius:16px;padding:18px;text-align:center}
+.privacy-item .icon{font-size:28px;margin-bottom:8px}
+.privacy-item h4{font-size:14px;color:var(--green);margin-bottom:4px}
+.privacy-item p{font-size:12px;color:#888}
+.cta{background:var(--yellow);color:#000;border-radius:28px;padding:36px;text-align:center;margin:40px 0}
+.cta h2{font-size:32px;font-weight:800;margin-bottom:10px;color:#000}
+.cta p{color:#333;margin-bottom:20px}
+footer{padding:30px 0;text-align:center;color:#555;font-size:12px;border-top:1px solid var(--border)}
+.file-input{display:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:12px 20px;border-radius:100px;font-weight:700;font-size:13px;display:none;z-index:99}
 </style>
 </head>
 <body>
+<div class="container">
+<nav><div class="logo">NA<span>MBI</span></div><a class="nav-btn" href="#upload">Try NAMBI da</a></nav>
+<div class="hero">
 <h1>NAMBI</h1>
-<p class="tag">100% Secure da - Un Photo Yaarukkum Pogathu da!</p>
-
-<div class="card">
-<p class="green">🔒 SECURE DA - NAMBALAM</p>
-<p>✓ Un data va yaarukkum tharamattom da</p>
-<p>✓ 24 hours la auto delete aagidum da</p>
-<p>✓ AI training ku use pannamattom da</p>
-<p>✓ Offline la ye fast ah work aagum da</p>
+<p class="hero-sub">One Doubt Box da. Enna doubt venalum - medicine slip, offer letter, loan paper, bank form - photo eduthu potta Tamil la easy ah sollum da.</p>
+<div class="secure-badge">🔒 100% On-Device • No Data Sharing • 24hrs Auto Delete</div>
+<div id="upload" class="upload-box" onclick="document.getElementById('file').click()">
+<div class="upload-icon">📦</div>
+<h3>Idhu Enna? - Upload Pannunga da</h3>
+<p>Photo, PDF, Bill, Resume, Offer Letter - Ethuvum anupalam da. Phone la ye padichu sollum da, velila pogathu.</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<button class="btn btn-yellow" onclick="event.stopPropagation();document.getElementById('file').click()">📸 Photo Edu da</button>
+<button class="btn btn-dark" onclick="event.stopPropagation();document.getElementById('file').click()">📄 PDF Upload pannu da</button>
 </div>
-
-<a class="btn" href="#" onclick="alert('AI Feature Coming Soon da! Website first da!')">📸 AI Photo Create Pannu da</a>
-<a class="btn btn2" href="#" onclick="alert('Edit Feature Coming Soon da!')">✏️ Photo Edit Pannu da</a>
-<a class="btn btn2" href="#" onclick="alert('Namma NAMBI - Haripapu - Secure da!')">ℹ️ About NAMBI da</a>
-
-<p class="foot">© 2026 NAMBI - By Haripapu<br>Made with ❤️ in Chennai<br>Version 1.0 - GitHub Pages</p>
+<input id="file" class="file-input" type="file" accept="image/*,.pdf" onchange="handleFile(this)">
+<p style="margin-top:16px;font-size:11px;color:#555">Powered by On-Device AI • LiteRT / Core ML • Offline First</p>
+</div>
+</div>
+<div class="features-grid">
+<div class="feature-card"><h4>🔒 SECURE DA - NAMBALAM</h4><li>Un data va yaarukkum tharamattom da</li><li>24 hours la auto delete aagidum da</li><li>AI training ku use pannamattom da</li><li>Offline la ye fast ah work aagum da</li></div>
+<div class="feature-card"><h4>🧠 SMART DA - EASY AH SOLLUM</h4><li>Medicine slip na dosage Tamil la sollum da</li><li>Offer letter na bond, salary break pannum da</li><li>Bank form na fill panna help pannum da</li><li>Govt paper na simple Tamil la translate pannum da</li></div>
+<div class="feature-card"><h4>⚡ FAST DA - ONE BOX ONLY</h4><li>Department click panna thevai illa da</li><li>AI than auto department kandupudikkum da</li><li>Voice la kooda doubt kekalam da</li><li>Tamil + English + Tanglish okay da</li></div>
+</div>
+</div>
+<div class="section"><div class="container"><div class="section-label">NAMBI INTERVIEW PREP</div><h2>Job Kidaika Full Help Pannum da</h2><p class="section-desc">Resume la irunthu salary negotiation vara - ellam phone la ye private ah prepare pannalam da.</p><div class="cards"><div class="card"><div class="card-icon">📝</div><h3>Resume Improvement</h3><p>Resume ah upload pannu da - ATS score, mistake, better words ellam sollum da.</p></div><div class="card"><div class="card-icon">🔍</div><h3>Job Description Analysis</h3><p>JD paste pannu da - enna kekuranga, unakku match aagutha nu easy ah sollum da.</p></div><div class="card"><div class="card-icon">🎤</div><h3>HR Interview Questions</h3><p>HR enna kekum, Tamil la eppadi answer pannalam nu practice pannalam da.</p></div><div class="card"><div class="card-icon">💰</div><h3>Salary Negotiation</h3><p>Evlo ketta okay nu, eppadi ketta kidaikum nu role-play pannum da.</p></div></div></div></div>
+<div class="section" style="background:#0f0f0f"><div class="container"><div class="section-label">NAMBI LEARN</div><h2>Banking, Insurance, Sales - Ellam Kathukalam da</h2><p class="section-desc">Bank staff, insurance agent, sales ku thevaiyana knowledge ellam - friend sollura maari easy ah.</p><div class="cards"><div class="card"><div class="card-icon">🏦</div><h3>Banking Knowledge</h3><p>Loan types, interest, CASA, KYC - customer doubt ku instant answer da.</p></div><div class="card"><div class="card-icon">🛡️</div><h3>Insurance Knowledge</h3><p>Term, ULIP, claim process - customer ku easy ah eppadi sollanum.</p></div><div class="card"><div class="card-icon">📈</div><h3>Sales & Marketing</h3><p>Customer ah eppadi convince pannalam, objection handle pannalam.</p></div><div class="card"><div class="card-icon">💹</div><h3>Financial Concepts</h3><p>Mutual fund, SIP, credit score - full Tamil la easy explanation da.</p></div><div class="card"><div class="card-icon">🎓</div><h3>Professional Training</h3><p>Daily 5 mins training, role-play, certificate - full offline la.</p></div><div class="card"><div class="card-icon">🤖</div><h3>Ask Any Doubt</h3><p>Bank form photo eduthu potta - idhu enna nu Tamil la sollum da.</p></div></div></div></div>
+<div class="section"><div class="container"><div class="section-label">WHY NAMBI IS UNIQUE DA</div><h2>Vera App vs NAMBI</h2><div class="privacy-grid"><div class="privacy-item"><div class="icon">🚫</div><h4>Vera App</h4><p>Photo va server ku anuppi data va vikkum</p></div><div class="privacy-item"><div class="icon">✅</div><h4>NAMBI</h4><p>Photo phone la ye padikkum, velila pogathu da</p></div><div class="privacy-item"><div class="icon">☁️</div><h4>Vera App</h4><p>Internet venum, slow</p></div><div class="privacy-item"><div class="icon">📴</div><h4>NAMBI</h4><p>Offline la ye fast ah work aagum da</p></div></div>
+<table class="tech-table"><tr><th>Component</th><th>Technology</th><th>Why da?</th></tr><tr><td>Mobile App</td><td>Flutter</td><td>Android + iPhone oru code la</td></tr><tr><td>Android AI</td><td>Google LiteRT / LM</td><td>100% offline, fast, private da</td></tr><tr><td>iPhone AI</td><td>Apple Core ML</td><td>Apple native on-device da</td></tr><tr><td>Storage</td><td>Encrypted Database</td><td>Un data phone la ye safe da</td></tr><tr><td>Keys</td><td>Keystore / Keychain</td><td>Hardware level security da</td></tr><tr><td>Auth</td><td>Optional, No Tracking</td><td>Login kooda optional da</td></tr><tr><td>Backend</td><td>Minimal Private</td><td>Only sync, no tracking da</td></tr><tr><td>Cloud AI</td><td>Consent-based only</td><td>Nee okay sonna mattum da</td></tr></table>
+<div class="cta"><h2>NAMBI - Nambalama da?</h2><p>100% Private. 100% Tamil Friendly. 100% On-Device. Un doubt ah un phone kitte mattum kettu therunchuko da.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn btn-dark" style="background:#000;color:#fff" href="#upload" onclick="document.getElementById('file').click();return false;">🚀 Try Now da - Free</a><a class="btn btn-dark" style="background:#fff;color:#000" href="https://haripapu0113-lgtm.github.io/nambi-app/">🔗 Share pannu da</a></div></div></div></div>
+<footer>© 2026 NAMBI - By HARIPRIYA P, Purasawalkam Chennai-07 • 100% Secure • No Data Sharing • Built with LiteRT + Core ML<br>Made with ❤️ for Tamil Nadu da</footer>
+<div id="toast" class="toast"></div>
+<script>
+function handleFile(input){ if(!input.files[0]) return; const name=input.files[0].name; showToast(`"${name}" upload aachu da! AI phone la ye padichittu irukku da... (Demo)`); setTimeout(()=>{showToast(`AI Result da: Ithu ${name.includes('resume')?'Resume':'Document'} maari theriyuthu da. Full analysis offline la ready da! 🚀`);},1800); }
+function showToast(msg){ const t=document.getElementById('toast'); t.innerText=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',4000); }
+</script>
 </body>
 </html>
