@@ -1,50 +1,450 @@
+
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>NAMBI - Superhuman AI</title><link rel="icon" href="./logo.jpg">
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NAMBI AI - Independent AI Project</title>
+<link rel="icon" href="./logo.jpg">
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,sans-serif;background:#050507;color:#fff}
-.top{position:sticky;top:0;background:rgba(5,5,7,0.9);backdrop-filter:blur(20px);border-bottom:1px solid #1a1a1a}
-.top-inner{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
-.logo-wrap{display:flex;align-items:center;gap:10px}.logo-img{width:44px;height:44px;border-radius:12px;object-fit:cover;border:1px solid #FFD60A55}
-.logo-text{font-weight:800;letter-spacing:5px;font-size:22px}.logo-text b{color:#FFD60A}
-.hero{text-align:center;padding:24px 16px 10px}.hero-logo{width:130px;height:130px;border-radius:32px;margin:0 auto 14px;display:block;border:2px solid #FFD60A66;box-shadow:0 0 50px #FFD60A33;object-fit:cover}
-.hero h1{font-size:50px;letter-spacing:8px;font-weight:800}.hero p{color:#aaa;max-width:680px;margin:10px auto;font-size:14px;line-height:1.6}
-.container{max-width:1200px;margin:0 auto;padding:0 14px}.layout{display:grid;grid-template-columns:1.1fr 0.9fr;gap:12px;margin-top:16px} @media(max-width:900px){.layout{grid-template-columns:1fr}}
-.card{background:#15151a;border:1px solid #23232a;border-radius:20px;overflow:hidden}.card-head{padding:12px 14px;border-bottom:1px solid #23232a;font-weight:700;font-size:12px;letter-spacing:1px;display:flex;justify-content:space-between}
-.chat-area{height:380px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}.msg{max-width:88%;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.5}.msg.user{align-self:flex-end;background:#FFD60A;color:#000;font-weight:600}.msg.ai{align-self:flex-start;background:#1e1e26;border:1px solid #2a2a35}
-.input-row{display:flex;gap:6px;padding:10px;border-top:1px solid #23232a;background:#0f0f12}.input-row input{flex:1;background:#1a1a20;border:1px solid #2a2a35;border-radius:100px;padding:10px 12px;color:#fff;outline:0;font-size:12px}.input-row button{background:#FFD60A;color:#000;border:0;border-radius:100px;padding:10px 14px;font-weight:800;cursor:pointer}
-.upload-zone{border:2px dashed #2a2a35;border-radius:16px;margin:10px;padding:14px;text-align:center;cursor:pointer;background:#0f0f12}.preview{display:none;margin:10px;border-radius:16px;overflow:hidden;border:1px solid #23232a;position:relative}.preview img{width:100%;max-height:280px;object-fit:contain;background:#000;display:block}.preview-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#000d);padding:8px;display:flex;gap:6px;flex-wrap:wrap}.tool-btn{background:#fff;color:#000;border:0;border-radius:100px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer}.tool-btn.dark{background:#222;color:#fff;border:1px solid #444}
-.edit-panel{padding:10px;display:grid;gap:6px}.edit-row{display:flex;gap:6px;flex-wrap:wrap}.edit-row button{flex:1;min-width:70px;background:#1e1e26;border:1px solid #2a2a35;color:#fff;padding:8px;border-radius:10px;font-size:11px;cursor:pointer}.prompt-row{display:flex;gap:6px}.prompt-row input{flex:1;background:#1a1a20;border:1px solid #2a2a35;border-radius:10px;padding:8px;color:#fff;font-size:11px;outline:0}
-.canvas-wrap{display:none;margin:10px;border:1px solid #23232a;border-radius:16px;overflow:hidden}.canvas-wrap canvas{width:100%;display:block}
-.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:8px 14px;border-radius:100px;font-weight:700;font-size:11px;display:none;z-index:99}
-.footer{padding:16px;text-align:center;color:#555;font-size:10px;margin-top:10px;border-top:1px solid #111}
-</style></head><body>
-<div class="top"><div class="top-inner"><div class="logo-wrap"><img src="./logo.jpg" class="logo-img"><div class="logo-text">NA<b>MBI</b></div></div><div style="display:flex;gap:6px;font-size:11px"><span style="border:1px solid #222;padding:5px 10px;border-radius:100px;background:#111">🔒 On-Device</span><span style="border:1px solid #00FF88;color:#00FF88;padding:5px 10px;border-radius:100px;background:#111">● Superhuman Live</span></div></div></div>
-<div class="hero"><img src="./logo.jpg" class="hero-logo"><h1>NAMBI</h1><p>One Doubt Box da. Enna doubt venalum - photo eduthu potta Tamil la easy ah sollum da. <b style="color:#FFD60A">ChatGPT + Meta AI + Gemini = One NAMBI da!</b></p><div style="margin-top:10px"><span style="border:1px solid #00FF88;color:#00FF88;padding:6px 12px;border-radius:100px;font-size:11px;font-weight:700">🔒 100% On-Device • No Data Sharing • 24hrs Auto Delete</span></div></div>
-<div class="container"><div class="layout">
-<div class="card"><div class="card-head">NAMBI SUPERHUMAN CHAT <small style="color:#666">Tamil • English • Tanglish</small></div>
-<div id="chat" class="chat-area"><div class="msg ai"><b>Vanakkam da! 🙏 Naan NAMBI da - Superhuman AI da.</b><br><br>Enna venalum kekalam da:<br>• Photo upload pannu da - athula enna irukku nu Tamil la solluven da<br>• Photo edit pannu da - BG maathu, text add pannu, new photo create pannu da<br>• ChatGPT + Meta AI + Gemini ellam oru idathula da<br><br>Logo semma mass da! 👑</div></div>
-<div id="uploadZone" class="upload-zone" onclick="document.getElementById('fileIn').click()"><div style="font-size:26px">📦</div><b>Idhu Enna? - Upload Pannunga da</b><div style="color:#888;font-size:11px;margin-top:4px">Photo, PDF, Bill, Resume - ethuvum okay da</div><div style="margin-top:8px;display:flex;gap:6px;justify-content:center"><span class="tool-btn">📷 Photo Edu da</span><span class="tool-btn dark">📄 PDF Upload</span></div></div>
-<input id="fileIn" type="file" accept="image/*,.pdf" hidden onchange="handleImage(this)">
-<div id="preview" class="preview"><img id="prevImg"><div class="preview-bar"><button class="tool-btn" onclick="analyzeImage()">🔍 Enna Irukku Sollu da</button><button class="tool-btn dark" onclick="editMode('bg')">✨ BG Remove</button><button class="tool-btn dark" onclick="editMode('enhance')">⚡ Enhance</button></div></div>
-<div class="canvas-wrap" id="canvasWrap"><canvas id="editCanvas"></canvas></div>
-<div class="input-row"><input id="chatInput" placeholder="Enna doubt da? Tamil la kekalam da..." onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()">Send da 🚀</button></div>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050507;color:white;font-family:system-ui,sans-serif}
+:root{--gold:#FFD60A;--green:#00FF88;--panel:#101015}
+.top{position:sticky;top:0;background:#08080bee;padding:12px 16px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.logo{width:38px;height:38px;object-fit:cover;border-radius:10px}
+.brand{display:flex;align-items:center;gap:10px;letter-spacing:4px;font-weight:900}
+.hero{text-align:center;padding:35px 15px 20px}
+.hero img{width:150px;height:150px;object-fit:cover;border-radius:30px;border:3px solid #FFD60A88;box-shadow:0 0 50px #FFD60A33}
+h1{font-size:42px;letter-spacing:9px;margin-top:12px}
+h1 span{color:var(--gold)}
+.sub{color:#aaa;font-size:13px;max-width:650px;margin:10px auto}
+.badges{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:15px}
+.badges span{background:#111;border:1px solid #333;border-radius:30px;padding:6px 10px;font-size:10px}
+.green{color:var(--green)!important;border-color:var(--green)!important}
+.grid{max-width:950px;margin:20px auto;padding:0 15px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.card{background:var(--panel);border:1px solid #252530;border-radius:15px;padding:15px}
+.card h3{font-size:12px;color:var(--gold);margin-bottom:7px}
+.card p{font-size:12px;color:#aaa;line-height:1.6}
+.area{max-width:950px;margin:18px auto;padding:0 15px}
+.box{background:var(--panel);border:1px solid #292933;border-radius:17px;padding:15px}
+.upload{border:2px dashed #444;border-radius:15px;padding:25px;text-align:center;cursor:pointer}
+.upload:hover{border-color:var(--gold)}
+button{cursor:pointer;border:0;border-radius:30px;padding:9px 14px;font-weight:700;font-size:11px}
+.gold{background:var(--gold);color:#000}
+.dark{background:#292930;color:white;border:1px solid #444}
+input{background:#1a1a20;color:white;border:1px solid #333;border-radius:30px;padding:11px 14px;outline:none;min-width:0}
+.preview{display:none;margin-top:12px}
+.preview img{max-width:100%;max-height:300px;display:block;margin:auto;object-fit:contain}
+.tools,.inputrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.tools button{flex:1}
+.chat{background:var(--panel);border:1px solid #292933;border-radius:17px;overflow:hidden}
+.chathead{padding:12px;border-bottom:1px solid #292933;font-size:12px;font-weight:bold}
+.chatarea{height:350px;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:9px}
+.msg{padding:10px 12px;border-radius:13px;max-width:88%;font-size:13px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.user{align-self:flex-end;background:var(--gold);color:black}
+.ai{align-self:flex-start;background:#22222b;border:1px solid #333}
+.inputrow input{flex:1}
+.canvasbox{display:none;margin-top:12px}
+canvas{width:100%;height:auto;border-radius:10px;background:#111}
+.privacy{font-size:11px;color:#bbb;line-height:1.7}
+.footer{text-align:center;color:#666;font-size:10px;padding:20px;border-top:1px solid #222;margin-top:25px}
+#toast{display:none;position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:white;color:black;padding:10px 16px;border-radius:30px;z-index:10;font-size:12px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}h1{font-size:34px}.hero img{width:130px;height:130px}}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+<div class="brand">
+<img src="./logo.jpg" class="logo" alt="NAMBI">
+<span>NA<span style="color:#FFD60A">MBI</span> AI</span>
 </div>
-<div style="display:flex;flex-direction:column;gap:10px"><div class="card"><div class="card-head">🎨 PHOTO STUDIO</div><div class="edit-panel"><div class="edit-row"><button onclick="applyFilter('none')" class="active" id="f-none">Original</button><button onclick="applyFilter('bw')" id="f-bw">B&W</button><button onclick="applyFilter('vivid')" id="f-vivid">Vivid</button><button onclick="applyFilter('cinema')" id="f-cinema">Cinema</button></div><div class="edit-row"><button onclick="quickEdit('text')">📝 Text Add</button><button onclick="quickEdit('sticker')">😎 Sticker</button><button onclick="quickEdit('blur')">🌫️ BG Blur</button></div><div style="font-size:11px;font-weight:700;color:#FFD60A">AI IMAGE CREATE</div><div class="prompt-row"><input id="genPrompt" placeholder="Ex: Professional photo suit pota maari"><button class="tool-btn" onclick="generateImage()" style="background:#FFD60A">Generate ✨</button></div><div id="genResult" style="display:none;margin-top:6px;border-radius:12px;overflow:hidden;border:1px solid #23232a"><img id="genImg" style="width:100%"></div></div></div>
-<div class="card"><div class="card-head">⚡ SUPER POWERS</div><div style="padding:8px;display:grid;gap:6px;font-size:11px"><div style="background:#0f0f12;border:1px solid #1e1e26;border-radius:10px;padding:8px">💬 <b>ChatGPT</b> - Code, resume, analysis</div><div style="background:#0f0f12;border:1px solid #1e1e26;border-radius:10px;padding:8px">📸 <b>Meta AI</b> - Photo la enna irukku fast ah</div><div style="background:#0f0f12;border:1px solid #1e1e26;border-radius:10px;padding:8px">🎨 <b>Gemini</b> - Photo edit, new create</div><div style="background:#0f0f12;border:1px solid #1e1e26;border-radius:10px;padding:8px">🗣️ <b>Tamil Tanglish</b> - Paati kooda puriyum</div><div style="background:#0f0f12;border:1px solid #00FF8822;border-radius:10px;padding:8px">🔒 <b>Private da</b> - Phone la ye safe da</div></div></div>
-</div></div><div class="footer">© 2026 NAMBI - Golden N + Lion + Crown Logo | Superhuman AI • On-Device • No Data Sharing</div></div>
-<div id="toast" class="toast"></div>
+<span class="green" style="font-size:11px">● Prototype</span>
+</header>
+
+<section class="hero">
+<img src="./logo.jpg" alt="NAMBI AI Logo">
+<h1>NA<span>MBI</span> AI</h1>
+<p class="sub">
+An independent AI project designed to understand people,
+assist their needs and support multiple languages.
+Tamil • English • Tanglish
+</p>
+<div class="badges">
+<span>🔒 Privacy Focused</span>
+<span>🧠 Independent Project</span>
+<span class="green">Tamil Support</span>
+<span>📄 Document Tools</span>
+</div>
+</section>
+
+<section class="grid">
+<div class="card">
+<h3>👁️ IMAGE UNDERSTANDING</h3>
+<p>OCR technology helps extract readable text from images.</p>
+</div>
+<div class="card">
+<h3>📄 DOCUMENT READING</h3>
+<p>Read text from supported PDF documents.</p>
+</div>
+<div class="card">
+<h3>🎨 IMAGE EDITING</h3>
+<p>Apply image filters and download edited pictures.</p>
+</div>
+<div class="card">
+<h3>🧠 ADAPTIVE AI - FUTURE DEVELOPMENT</h3>
+<p>Build NAMBI's own intelligent model and personalization system.</p>
+</div>
+<div class="card">
+<h3>🔒 PRIVACY CONTROLS</h3>
+<p>Control locally stored memory and feedback.</p>
+</div>
+<div class="card">
+<h3>🗣️ MULTILINGUAL</h3>
+<p>Tamil, English and Tanglish support.</p>
+</div>
+</section>
+
+<section class="area">
+<div class="box">
+<h3 style="color:#FFD60A;margin-bottom:10px">🔒 PRIVACY SETTINGS</h3>
+<p class="privacy">
+This prototype uses browser-based libraries. Selected external libraries
+and model files may be downloaded from their providers.
+Uploaded files are processed locally by the features in this prototype.
+No AI cloud service is connected yet.
+Memory and feedback are stored in this browser only.
+</p>
+<div class="tools">
+<button class="gold" onclick="setConsent(true)">Allow Memory</button>
+<button class="dark" onclick="setConsent(false)">Disable Memory</button>
+<button class="dark" onclick="deleteData()">Delete My Data</button>
+</div>
+<p id="consentStatus" class="privacy" style="margin-top:8px"></p>
+</div>
+</section>
+
+<section class="area">
+<div class="box">
+<h3 style="color:#FFD60A;margin-bottom:12px">📦 IMAGE / PDF UPLOAD</h3>
+<div class="upload" onclick="document.getElementById('file').click()">
+<div style="font-size:30px">📷</div>
+<b>Upload Photo or PDF</b>
+<p style="color:#888;font-size:11px;margin-top:6px">Select an image or PDF from your phone</p>
+</div>
+<input id="file" type="file" accept="image/*,.pdf" hidden>
+<div id="preview" class="preview">
+<img id="previewImg" alt="Selected image">
+<div class="tools">
+<button class="gold" onclick="scanImage()">Scan Image OCR</button>
+<button class="dark" onclick="removeBG()">Remove Background</button>
+</div>
+</div>
+<div class="canvasbox" id="canvasBox">
+<canvas id="canvas"></canvas>
+<div class="tools">
+<button class="dark" onclick="filterImage('bw')">B&W</button>
+<button class="dark" onclick="filterImage('vivid')">Vivid</button>
+<button class="dark" onclick="filterImage('original')">Original</button>
+<button class="gold" onclick="downloadImage()">Download</button>
+</div>
+</div>
+<div id="documentText" class="privacy" style="margin-top:10px;white-space:pre-wrap"></div>
+</div>
+</section>
+
+<section class="area">
+<div class="box">
+<h3 style="color:#FFD60A;margin-bottom:10px">🧠 NAMBI CHAT</h3>
+<div class="chat">
+<div class="chathead">NAMBI - LOCAL PROTOTYPE</div>
+<div class="chatarea" id="chat">
+<div class="msg ai">Vanakkam! 🙏 Naan NAMBI AI project prototype.
+
+Tamil, English, Tanglish la message anuppunga.
+
+Note: Ippo basic local logic mattum work aagum. Full AI model innum connect pannala.</div>
+</div>
+<div class="inputrow" style="padding:10px;margin:0">
+<input id="message" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendMessage()">
+<button class="gold" onclick="sendMessage()">Send ➤</button>
+</div>
+</div>
+</div>
+</section>
+
+<section class="area">
+<div class="box">
+<h3 style="color:#FFD60A">💬 FEEDBACK</h3>
+<div class="inputrow">
+<input id="feedback" placeholder="Share your feedback">
+<button class="gold" onclick="saveFeedback()">Save</button>
+<button class="dark" onclick="exportFeedback()">Export</button>
+</div>
+<div id="feedbackList" class="privacy" style="margin-top:10px"></div>
+</div>
+</section>
+
+<footer class="footer">
+© 2026 NAMBI AI | Independent AI Development Project
+<br>By HARIPRIYA P
+</footer>
+
+<div id="toast"></div>
+
 <script>
-let currentImageData=null;const chat=document.getElementById('chat');
-function toast(m){const t=document.getElementById('toast');t.innerText=m;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
-function addMsg(t,w='ai'){const d=document.createElement('div');d.className='msg '+w;d.innerHTML=t;chat.appendChild(d);chat.scrollTop=chat.scrollHeight}
-function sendMsg(){const i=document.getElementById('chatInput');let txt=i.value.trim();if(!txt)return;addMsg(txt,'user');i.value='';setTimeout(()=>{addMsg(`<b>Dei semma doubt da! 💡</b><br>Neenga: <i>"${txt}"</i><br><br><span style="color:#00FF88">Naan ChatGPT maari deep ah yosippen da, Meta AI maari fast ah solluven da, Gemini maari photo va kooda create pannuven da!</span><br><br>Photo upload pannu da! 🚀`,'ai')},500)}
-function handleImage(input){if(!input.files[0])return;const f=input.files[0];const r=new FileReader();r.onload=e=>{currentImageData=e.target.result;document.getElementById('prevImg').src=currentImageData;document.getElementById('preview').style.display='block';loadToCanvas(currentImageData);addMsg(`<b>Photo upload aayiduchu da! 📸</b><br><img src="${currentImageData}" style="width:100%;border-radius:12px;margin-top:8px;max-height:180px;object-fit:contain;background:#000"><br><br>Super da! "Enna Irukku Sollu da" click pannu da!`,'ai');};r.readAsDataURL(f);}
-function loadToCanvas(s){const img=new Image();img.onload=()=>{const c=document.getElementById('editCanvas');const ctx=c.getContext('2d');c.width=img.width;c.height=img.height;ctx.drawImage(img,0,0);document.getElementById('canvasWrap').style.display='block';};img.src=s;}
-function analyzeImage(){if(!currentImageData){toast('First photo upload pannu da!');return}addMsg(`<b>🔍 AI Scan pannuren da...</b><br>⏳ Padichittu irukken da...`,'ai');setTimeout(()=>{addMsg(`<b>Photo la enna irukku da?</b><br><br>📄 <b>Type:</b> Document / Photo maari<br>👁️ <b>Details:</b> Text, details irukku da<br><span style="color:#00FF88"><b>Tamil la:</b> Ithu important document da. Enna doubt? Kekalam da!</span><br><br><b>Eppadi kekalam?</b><br>• "Ithula enna eluthirukku tamil la sollu da"<br>• "Valid ah da?"<br>• "HD ah maathu da"`,'ai');},1000);}
-function applyFilter(t){document.querySelectorAll('.edit-row button').forEach(b=>b.classList.remove('active'));const b=document.getElementById('f-'+t);if(b)b.classList.add('active');const c=document.getElementById('editCanvas');if(!c)return;const ctx=c.getContext('2d');if(t==='none'){loadToCanvas(currentImageData);toast('Original da!');return}const d=ctx.getImageData(0,0,c.width,c.height);const dd=d.data;for(let i=0;i<dd.length;i+=4){if(t==='bw'){const a=(dd[i]+dd[i+1]+dd[i+2])/3;dd[i]=dd[i+1]=dd[i+2]=a}if(t==='vivid'){dd[i]=Math.min(255,dd[i]*1.3);dd[i+1]=Math.min(255,dd[i+1]*1.2)}}ctx.putImageData(d,0,0);toast(t+' filter da!')}
-function quickEdit(m){if(m==='text'){const t=prompt('Enna text add pannalam da?');if(t){const c=document.getElementById('editCanvas');const x=c.getContext('2d');x.font='bold 40px sans-serif';x.fillStyle='#FFD60A';x.strokeStyle='#000';x.lineWidth=4;x.strokeText(t,30,c.height-30);x.fillText(t,30,c.height-30);toast('Text add da!')}}if(m==='sticker'){const c=document.getElementById('editCanvas');const x=c.getContext('2d');x.font='60px serif';x.fillText('😎',c.width/2-30,c.height/2);toast('Sticker da!')}if(m==='blur'){toast('BG Blur demo da!');applyFilter('cinema')}}
-function editMode(m){if(m==='bg'){toast('BG Remove da...');setTimeout(()=>{applyFilter('vivid');toast('BG enhance da!')},600)}if(m==='enhance'){applyFilter('vivid');toast('HD da!')}}
-function generateImage(){const p=document.getElementById('genPrompt').value.trim();if(!p){toast('Prompt type pannu da!');return}addMsg(`<b>🎨 Create pannuren da:</b> "${p}"<br>⏳ Generate pannittu irukken da...`,'ai');const ca=document.createElement('canvas');ca.width=512;ca.height=512;const cx=ca.getContext('2d');const g=cx.createLinearGradient(0,0,512,512);g.addColorStop(0,'#FFD60A');g.addColorStop(1,'#00FF88');cx.fillStyle=g;cx.fillRect(0,0,512,512);cx.fillStyle='#000';cx.font='bold 18px sans-serif';cx.textAlign='center';cx.fillText(p.slice(0,40),256,240);cx.font='12px sans-serif';cx.fillText('AI Generated by NAMBI Superhuman',256,270);const u=ca.toDataURL();document.getElementById('genImg').src=u;document.getElementById('genResult').style.display='block';setTimeout(()=>{addMsg(`<b>Image ready da! 🎉</b><br><img src="${u}" style="width:100%;border-radius:12px;margin-top:8px"><br><br>Super da! Download pannikalam da!`,'ai');},700);}
-const z=document.getElementById('uploadZone');z.addEventListener('dragover',e=>{e.preventDefault();z.style.borderColor='#FFD60A'});z.addEventListener('dragleave',()=>z.style.borderColor='#2a2a35');z.addEventListener('drop',e=>{e.preventDefault();const f=e.dataTransfer.files[0];if(f){document.getElementById('fileIn').files=e.dataTransfer.files;handleImage({files:[f]})}});
-</script></body></html>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+let currentImage=null;
+let originalImage=null;
+let memory=[];
+let consent=localStorage.getItem("nambi_consent")==="true";
+
+const chat=document.getElementById("chat");
+
+function toast(text){
+const t=document.getElementById("toast");
+t.textContent=text;
+t.style.display="block";
+setTimeout(()=>t.style.display="none",2500);
+}
+
+function addMessage(text,type="ai"){
+const div=document.createElement("div");
+div.className="msg "+type;
+div.textContent=text;
+chat.appendChild(div);
+chat.scrollTop=chat.scrollHeight;
+}
+
+function updateConsent(){
+document.getElementById("consentStatus").textContent=
+consent?"Memory enabled on this browser":"Memory disabled";
+memory=consent?JSON.parse(localStorage.getItem("nambi_memory")||"[]"):[];
+}
+updateConsent();
+
+function setConsent(value){
+consent=value;
+localStorage.setItem("nambi_consent",String(value));
+if(!value){
+localStorage.removeItem("nambi_memory");
+memory=[];
+}
+updateConsent();
+toast(value?"Memory enabled":"Memory disabled");
+}
+
+function deleteData(){
+localStorage.removeItem("nambi_memory");
+localStorage.removeItem("nambi_feedback");
+localStorage.removeItem("nambi_consent");
+memory=[];
+consent=false;
+updateConsent();
+renderFeedback();
+toast("Local NAMBI data deleted");
+}
+
+function saveMemory(user,reply){
+if(!consent)return;
+memory.push({user,reply,time:Date.now()});
+memory=memory.slice(-20);
+localStorage.setItem("nambi_memory",JSON.stringify(memory));
+}
+
+function localReply(text){
+const q=text.toLowerCase();
+
+if(/hello|hi|vanakkam/.test(q))
+return "Vanakkam! 🙏 Welcome to NAMBI. How can I help you today?";
+
+if(/privacy|safe|data/.test(q))
+return "NAMBI prototype stores optional memory and feedback in this browser. External libraries may be downloaded. No AI cloud model is connected yet.";
+
+if(/tamil|தமிழ்/.test(q))
+return "நிச்சயமாக! தமிழில் பேசலாம். உங்களுக்கு என்ன உதவி வேண்டும்?";
+
+if(/pdf|document|bill|offer/.test(q))
+return "உங்கள் PDF-ஐ upload செய்யுங்கள். அதில் உள்ள text-ஐ வாசிக்க உதவுகிறேன்.";
+
+if(/image|photo|picture/.test(q))
+return "படத்தை upload செய்யுங்கள். OCR மற்றும் image editing features பயன்படுத்தலாம்.";
+
+return "உங்கள் கேள்வியைப் பெற்றேன். இது NAMBI-யின் ஆரம்ப prototype. தற்போது local keyword logic மட்டுமே பதிலளிக்கிறது. உண்மையான intelligent AI model அடுத்த கட்டத்தில் இணைக்கப்படும்.";
+}
+
+function sendMessage(){
+const input=document.getElementById("message");
+const text=input.value.trim();
+if(!text)return;
+
+addMessage(text,"user");
+input.value="";
+
+const reply=localReply(text);
+setTimeout(()=>{
+addMessage(reply,"ai");
+saveMemory(text,reply);
+},250);
+}
+
+document.getElementById("file").addEventListener("change",async e=>{
+const file=e.target.files[0];
+if(!file)return;
+
+if(file.size>10*1024*1024){
+toast("Maximum file size is 10 MB");
+return;
+}
+
+if(file.type.startsWith("image/")){
+currentImage=file;
+const reader=new FileReader();
+reader.onload=event=>{
+originalImage=event.target.result;
+document.getElementById("previewImg").src=originalImage;
+document.getElementById("preview").style.display="block";
+loadCanvas(originalImage);
+};
+reader.readAsDataURL(file);
+}else if(file.type==="application/pdf"){
+readPDF(file);
+}else{
+toast("Unsupported file type");
+}
+});
+
+async function scanImage(){
+if(!currentImage)return;
+toast("OCR processing...");
+
+try{
+const result=await Tesseract.recognize(currentImage,"eng+tam");
+const text=result.data.text.trim();
+document.getElementById("documentText").textContent=
+text||"No readable text found.";
+addMessage("Image OCR result:\n"+(text||"No readable text found."));
+}catch(error){
+toast("OCR failed: "+error.message);
+}
+}
+
+async function readPDF(file){
+try{
+toast("Reading PDF...");
+const buffer=await file.arrayBuffer();
+const pdf=await pdfjsLib.getDocument({data:buffer}).promise;
+let text="";
+
+for(let i=1;i<=Math.min(pdf.numPages,10);i++){
+const page=await pdf.getPage(i);
+const content=await page.getTextContent();
+text+="Page "+i+":\n"+
+content.items.map(item=>item.str).join(" ")+"\n\n";
+}
+
+document.getElementById("documentText").textContent=
+text||"No selectable text found. Scanned PDF OCR is not yet supported.";
+
+addMessage("PDF reading result:\n"+(text||"No selectable text found."));
+}catch(error){
+toast("PDF error: "+error.message);
+}
+}
+
+function loadCanvas(src){
+const img=new Image();
+img.onload=()=>{
+const c=document.getElementById("canvas");
+const ctx=c.getContext("2d");
+const scale=Math.min(1,1600/Math.max(img.width,img.height));
+c.width=Math.round(img.width*scale);
+c.height=Math.round(img.height*scale);
+ctx.drawImage(img,0,0,c.width,c.height);
+document.getElementById("canvasBox").style.display="block";
+};
+img.src=src;
+}
+
+function filterImage(type){
+if(!originalImage)return;
+loadCanvas(originalImage);
+if(type==="original")return;
+
+const c=document.getElementById("canvas");
+const ctx=c.getContext("2d");
+const data=ctx.getImageData(0,0,c.width,c.height);
+const d=data.data;
+
+for(let i=0;i<d.length;i+=4){
+if(type==="bw"){
+const gray=(d[i]+d[i+1]+d[i+2])/3;
+d[i]=d[i+1]=d[i+2]=gray;
+}
+if(type==="vivid"){
+d[i]=Math.min(255,d[i]*1.2);
+d[i+1]=Math.min(255,d[i+1]*1.1);
+d[i+2]=Math.min(255,d[i+2]*1.1);
+}
+}
+ctx.putImageData(data,0,0);
+}
+
+function downloadImage(){
+const c=document.getElementById("canvas");
+const a=document.createElement("a");
+a.download="nambi-image.png";
+a.href=c.toDataURL("image/png");
+a.click();
+}
+
+async function removeBG(){
+if(!currentImage){
+toast("Upload an image first");
+return;
+}
+toast("Background removal library not connected in this version");
+addMessage("Background removal requires the separate model integration. It is not active in this prototype.");
+}
+
+function saveFeedback(){
+const input=document.getElementById("feedback");
+const text=input.value.trim();
+if(!text)return;
+
+let list=JSON.parse(localStorage.getItem("nambi_feedback")||"[]");
+list.push({text,time:new Date().toISOString()});
+localStorage.setItem("nambi_feedback",JSON.stringify(list));
+input.value="";
+renderFeedback();
+toast("Feedback saved on this browser");
+}
+
+function renderFeedback(){
+const list=JSON.parse(localStorage.getItem("nambi_feedback")||"[]");
+const el=document.getElementById("feedbackList");
+el.textContent=list.map((x,i)=>(i+1)+". "+x.text).join("\n");
+}
+renderFeedback();
+
+function exportFeedback(){
+const data=localStorage.getItem("nambi_feedback")||"[]";
+const blob=new Blob([data],{type:"application/json"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="nambi-feedback.json";
+a.click();
+URL.revokeObjectURL(url);
+}
+
+</script>
+</body>
+</html>
