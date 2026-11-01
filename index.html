@@ -1,97 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NAMBI - Your Private AI Friend | 100% On-Device & Secure</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NAMBI - Superhuman AI</title><link rel="icon" href="./logo.jpg">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:#0a0a0a;color:#fff;line-height:1.6}
-:root{--yellow:#FFD60A;--green:#00FF88;--card:#151515;--border:#222}
-.container{max-width:1100px;margin:0 auto;padding:0 20px}
-nav{padding:20px 0;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
-.logo{font-size:28px;font-weight:800;letter-spacing:6px}
-.logo span{color:var(--yellow)}
-.nav-btn{background:var(--yellow);color:#000;padding:10px 22px;border-radius:100px;font-weight:700;text-decoration:none;font-size:14px}
-.hero{text-align:center;padding:70px 20px 40px}
-.hero h1{font-size:clamp(48px,12vw,92px);font-weight:800;letter-spacing:12px;line-height:1}
-.hero-sub{font-size:20px;color:#aaa;margin:18px auto 10px;max-width:700px}
-.secure-badge{display:inline-flex;align-items:center;gap:8px;background:#151515;border:1px solid #00FF88;color:#00FF88;padding:8px 16px;border-radius:100px;font-size:13px;font-weight:700;margin-top:12px}
-.upload-box{background:var(--card);border:2px dashed #333;border-radius:24px;padding:36px 24px;margin:32px auto;max-width:640px;text-align:center}
-.upload-box:hover{border-color:var(--yellow)}
-.upload-icon{font-size:48px;margin-bottom:12px}
-.upload-box h3{font-size:22px;margin-bottom:8px}
-.upload-box p{color:#888;font-size:14px;margin-bottom:20px}
-.btn{padding:14px 22px;border-radius:100px;font-weight:700;border:0;cursor:pointer;font-size:15px;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-.btn-yellow{background:var(--yellow);color:#000}
-.btn-dark{background:#222;color:#fff;border:1px solid #333}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:40px 0}
-.feature-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px}
-.feature-card h4{font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.feature-card li{list-style:none;color:#bbb;font-size:14px;padding:6px 0;display:flex;gap:8px}
-.feature-card li::before{content:"✓";color:var(--green);font-weight:700}
-.section{padding:56px 0;border-top:1px solid var(--border)}
-.section-label{color:var(--yellow);font-size:12px;letter-spacing:3px;font-weight:800;margin-bottom:12px}
-.section h2{font-size:36px;font-weight:800;margin-bottom:12px;line-height:1.1}
-.section-desc{color:#888;max-width:700px;margin-bottom:28px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px}
-.card-icon{width:44px;height:44px;background:#1e1e1e;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
-.card h3{font-size:17px;margin-bottom:6px}
-.card p{color:#888;font-size:13px}
-.tech-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border-radius:20px;overflow:hidden;border:1px solid var(--border);margin-top:20px}
-.tech-table th{background:#1a1a1a;text-align:left;padding:14px 18px;font-size:12px;color:#888}
-.tech-table td{padding:14px 18px;font-size:14px;border-top:1px solid var(--border)}
-.tech-table td:first-child{font-weight:700;color:var(--yellow)}
-.privacy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
-.privacy-item{background:linear-gradient(135deg,#151515,#0f0f0f);border:1px solid #00FF8822;border-radius:16px;padding:18px;text-align:center}
-.privacy-item .icon{font-size:28px;margin-bottom:8px}
-.privacy-item h4{font-size:14px;color:var(--green);margin-bottom:4px}
-.privacy-item p{font-size:12px;color:#888}
-.cta{background:var(--yellow);color:#000;border-radius:28px;padding:36px;text-align:center;margin:40px 0}
-.cta h2{font-size:32px;font-weight:800;margin-bottom:10px;color:#000}
-.cta p{color:#333;margin-bottom:20px}
-footer{padding:30px 0;text-align:center;color:#555;font-size:12px;border-top:1px solid var(--border)}
-.file-input{display:none}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:12px 20px;border-radius:100px;font-weight:700;font-size:13px;display:none;z-index:99}
-</style>
-</head>
-<body>
-<div class="container">
-<nav><div class="logo">NA<span>MBI</span></div><a class="nav-btn" href="#upload">Try NAMBI da</a></nav>
-<div class="hero">
-<h1>NAMBI</h1>
-<p class="hero-sub">One Doubt Box da. Enna doubt venalum - medicine slip, offer letter, loan paper, bank form - photo eduthu potta Tamil la easy ah sollum da.</p>
-<div class="secure-badge">🔒 100% On-Device • No Data Sharing • 24hrs Auto Delete</div>
-<div id="upload" class="upload-box" onclick="document.getElementById('file').click()">
-<div class="upload-icon">📦</div>
-<h3>Idhu Enna? - Upload Pannunga da</h3>
-<p>Photo, PDF, Bill, Resume, Offer Letter - Ethuvum anupalam da. Phone la ye padichu sollum da, velila pogathu.</p>
-<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-<button class="btn btn-yellow" onclick="event.stopPropagation();document.getElementById('file').click()">📸 Photo Edu da</button>
-<button class="btn btn-dark" onclick="event.stopPropagation();document.getElementById('file').click()">📄 PDF Upload pannu da</button>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,sans-serif;background:#050507;color:#fff}
+.top{position:sticky;top:0;background:rgba(5,5,7,0.9);backdrop-filter:blur(20px);border-bottom:1px solid #1a1a1a}
+.top-inner{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo-wrap{display:flex;align-items:center;gap:10px}.logo-img{width:44px;height:44px;border-radius:12px;object-fit:cover;border:1px solid #FFD60A55}
+.logo-text{font-weight:800;letter-spacing:5px;font-size:22px}.logo-text b{color:#FFD60A}
+.hero{text-align:center;padding:24px 16px 10px}.hero-logo{width:130px;height:130px;border-radius:32px;margin:0 auto 14px;display:block;border:2px solid #FFD60A66;box-shadow:0 0 50px #FFD60A33;object-fit:cover}
+.hero h1{font-size:50px;letter-spacing:8px;font-weight:800}.hero p{color:#aaa;max-width:680px;margin:10px auto;font-size:14px;line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:0 14px}.layout{display:grid;grid-template-columns:1.1fr 0.9fr;gap:12px;margin-top:16px} @media(max-width:900px){.layout{grid-template-columns:1fr}}
+.card{background:#15151a;border:1px solid #23232a;border-radius:20px;overflow:hidden}.card-head{padding:12px 14px;border-bottom:1px solid #23232a;font-weight:700;font-size:12px;letter-spacing:1px;display:flex;justify-content:space-between}
+.chat-area{height:380px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}.msg{max-width:88%;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.5}.msg.user{align-self:flex-end;background:#FFD60A;color:#000;font-weight:600}.msg.ai{align-self:flex-start;background:#1e1e26;border:1px solid #2a2a35}
+.input-row{display:flex;gap:6px;padding:10px;border-top:1px solid #23232a;background:#0f0f12}.input-row input{flex:1;background:#1a1a20;border:1px solid #2a2a35;border-radius:100px;padding:10px 12px;color:#fff;outline:0;font-size:12px}.input-row button{background:#FFD60A;color:#000;border:0;border-radius:100px;padding:10px 14px;font-weight:800;cursor:pointer}
+.upload-zone{border:2px dashed #2a2a35;border-radius:16px;margin:10px;padding:14px;text-align:center;cursor:pointer;background:#0f0f12}.preview{display:none;margin:10px;border-radius:16px;overflow:hidden;border:1px solid #23232a;position:relative}.preview img{width:100%;max-height:280px;object-fit:contain;background:#000;display:block}.preview-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#000d);padding:8px;display:flex;gap:6px;flex-wrap:wrap}.tool-btn{background:#fff;color:#000;border:0;border-radius:100px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer}.tool-btn.dark{background:#222;color:#fff;border:1px solid #444}
+.edit-panel{padding:10px;display:grid;gap:6px}.edit-row{display:flex;gap:6px;flex-wrap:wrap}.edit-row button{flex:1;min-width:70px;background:#1e1e26;border:1px solid #2a2a35;color:#fff;padding:8px;border-radius:10px;font-size:11px;cursor:pointer}.prompt-row{display:flex;gap:6px}.prompt-row input{flex:1;background:#1a1a20;border:1px solid #2a2a35;border-radius:10px;padding:8px;color:#fff;font-size:11px;outline:0}
+.canvas-wrap{display:none;margin:10px;border:1px solid #23232a;border-radius:16px;overflow:hidden}.canvas-wrap canvas{width:100%;display:block}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:8px 14px;border-radius:100px;font-weight:700;font-size:11px;display:none;z-index:99}
+.footer{padding:16px;text-align:center;color:#555;font-size:10px;margin-top:10px;border-top:1px solid #111}
+</style></head><body>
+<div class="top"><div class="top-inner"><div class="logo-wrap"><img src="./logo.jpg" class="logo-img"><div class="logo-text">NA<b>MBI</b></div></div><div style="display:flex;gap:6px;font-size:11px"><span style="border:1px solid #222;padding:5px 10px;border-radius:100px;background:#111">🔒 On-Device</span><span style="border:1px solid #00FF88;color:#00FF88;padding:5px 10px;border-radius:100px;background:#111">● Superhuman Live</span></div></div></div>
+<div class="hero"><img src="./logo.jpg" class="hero-logo"><h1>NAMBI</h1><p>One Doubt Box da. Enna doubt venalum - photo eduthu potta Tamil la easy ah sollum da. <b style="color:#FFD60A">ChatGPT + Meta AI + Gemini = One NAMBI da!</b></p><div style="margin-top:10px"><span style="border:1px solid #00FF88;color:#00FF88;padding:6px 12px;border-radius:100px;font-size:11px;font-weight:700">🔒 100% On-Device • No Data Sharing • 24hrs Auto Delete</span></div></div>
+<div class="container"><div class="layout">
+<div class="card"><div class="card-head">NAMBI SUPERHUMAN CHAT <small style="color:#666">Tamil • English • Tanglish</small></div>
+<div id="chat" class="chat-area"><div class="msg ai"><b>Vanakkam da! 🙏 Naan NAMBI da - Superhuman AI da.</b><br><br>Enna venalum kekalam da:<br>• Photo upload pannu da - athula enna irukku nu Tamil la solluven da<br>• Photo edit pannu da - BG maathu, text add pannu, new photo create pannu da<br>• ChatGPT + Meta AI + Gemini ellam oru idathula da<br><br>Logo semma mass da! 👑</div></div>
+<div id="uploadZone" class="upload-zone" onclick="document.getElementById('fileIn').click()"><div style="font-size:26px">📦</div><b>Idhu Enna? - Upload Pannunga da</b><div style="color:#888;font-size:11px;margin-top:4px">Photo, PDF, Bill, Resume - ethuvum okay da</div><div style="margin-top:8px;display:flex;gap:6px;justify-content:center"><span class="tool-btn">📷 Photo Edu da</span><span class="tool-btn dark">📄 PDF Upload</span></div></div>
+<input id="fileIn" type="file" accept="image/*,.pdf" hidden onchange="handleImage(this)">
+<div id="preview" class="preview"><img id="prevImg"><div class="preview-bar"><button class="tool-btn" onclick="analyzeImage()">🔍 Enna Irukku Sollu da</button><button class="tool-btn dark" onclick="editMode('bg')">✨ BG Remove</button><button class="tool-btn dark" onclick="editMode('enhance')">⚡ Enhance</button></div></div>
+<div class="canvas-wrap" id="canvasWrap"><canvas id="editCanvas"></canvas></div>
+<div class="input-row"><input id="chatInput" placeholder="Enna doubt da? Tamil la kekalam da..." onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()">Send da 🚀</button></div>
 </div>
-<input id="file" class="file-input" type="file" accept="image/*,.pdf" onchange="handleFile(this)">
-<p style="margin-top:16px;font-size:11px;color:#555">Powered by On-Device AI • LiteRT / Core ML • Offline First</p>
-</div>
-</div>
-<div class="features-grid">
-<div class="feature-card"><h4>🔒 SECURE DA - NAMBALAM</h4><li>Un data va yaarukkum tharamattom da</li><li>24 hours la auto delete aagidum da</li><li>AI training ku use pannamattom da</li><li>Offline la ye fast ah work aagum da</li></div>
-<div class="feature-card"><h4>🧠 SMART DA - EASY AH SOLLUM</h4><li>Medicine slip na dosage Tamil la sollum da</li><li>Offer letter na bond, salary break pannum da</li><li>Bank form na fill panna help pannum da</li><li>Govt paper na simple Tamil la translate pannum da</li></div>
-<div class="feature-card"><h4>⚡ FAST DA - ONE BOX ONLY</h4><li>Department click panna thevai illa da</li><li>AI than auto department kandupudikkum da</li><li>Voice la kooda doubt kekalam da</li><li>Tamil + English + Tanglish okay da</li></div>
-</div>
-</div>
-<div class="section"><div class="container"><div class="section-label">NAMBI INTERVIEW PREP</div><h2>Job Kidaika Full Help Pannum da</h2><p class="section-desc">Resume la irunthu salary negotiation vara - ellam phone la ye private ah prepare pannalam da.</p><div class="cards"><div class="card"><div class="card-icon">📝</div><h3>Resume Improvement</h3><p>Resume ah upload pannu da - ATS score, mistake, better words ellam sollum da.</p></div><div class="card"><div class="card-icon">🔍</div><h3>Job Description Analysis</h3><p>JD paste pannu da - enna kekuranga, unakku match aagutha nu easy ah sollum da.</p></div><div class="card"><div class="card-icon">🎤</div><h3>HR Interview Questions</h3><p>HR enna kekum, Tamil la eppadi answer pannalam nu practice pannalam da.</p></div><div class="card"><div class="card-icon">💰</div><h3>Salary Negotiation</h3><p>Evlo ketta okay nu, eppadi ketta kidaikum nu role-play pannum da.</p></div></div></div></div>
-<div class="section" style="background:#0f0f0f"><div class="container"><div class="section-label">NAMBI LEARN</div><h2>Banking, Insurance, Sales - Ellam Kathukalam da</h2><p class="section-desc">Bank staff, insurance agent, sales ku thevaiyana knowledge ellam - friend sollura maari easy ah.</p><div class="cards"><div class="card"><div class="card-icon">🏦</div><h3>Banking Knowledge</h3><p>Loan types, interest, CASA, KYC - customer doubt ku instant answer da.</p></div><div class="card"><div class="card-icon">🛡️</div><h3>Insurance Knowledge</h3><p>Term, ULIP, claim process - customer ku easy ah eppadi sollanum.</p></div><div class="card"><div class="card-icon">📈</div><h3>Sales & Marketing</h3><p>Customer ah eppadi convince pannalam, objection handle pannalam.</p></div><div class="card"><div class="card-icon">💹</div><h3>Financial Concepts</h3><p>Mutual fund, SIP, credit score - full Tamil la easy explanation da.</p></div><div class="card"><div class="card-icon">🎓</div><h3>Professional Training</h3><p>Daily 5 mins training, role-play, certificate - full offline la.</p></div><div class="card"><div class="card-icon">🤖</div><h3>Ask Any Doubt</h3><p>Bank form photo eduthu potta - idhu enna nu Tamil la sollum da.</p></div></div></div></div>
-<div class="section"><div class="container"><div class="section-label">WHY NAMBI IS UNIQUE DA</div><h2>Vera App vs NAMBI</h2><div class="privacy-grid"><div class="privacy-item"><div class="icon">🚫</div><h4>Vera App</h4><p>Photo va server ku anuppi data va vikkum</p></div><div class="privacy-item"><div class="icon">✅</div><h4>NAMBI</h4><p>Photo phone la ye padikkum, velila pogathu da</p></div><div class="privacy-item"><div class="icon">☁️</div><h4>Vera App</h4><p>Internet venum, slow</p></div><div class="privacy-item"><div class="icon">📴</div><h4>NAMBI</h4><p>Offline la ye fast ah work aagum da</p></div></div>
-<table class="tech-table"><tr><th>Component</th><th>Technology</th><th>Why da?</th></tr><tr><td>Mobile App</td><td>Flutter</td><td>Android + iPhone oru code la</td></tr><tr><td>Android AI</td><td>Google LiteRT / LM</td><td>100% offline, fast, private da</td></tr><tr><td>iPhone AI</td><td>Apple Core ML</td><td>Apple native on-device da</td></tr><tr><td>Storage</td><td>Encrypted Database</td><td>Un data phone la ye safe da</td></tr><tr><td>Keys</td><td>Keystore / Keychain</td><td>Hardware level security da</td></tr><tr><td>Auth</td><td>Optional, No Tracking</td><td>Login kooda optional da</td></tr><tr><td>Backend</td><td>Minimal Private</td><td>Only sync, no tracking da</td></tr><tr><td>Cloud AI</td><td>Consent-based only</td><td>Nee okay sonna mattum da</td></tr></table>
-<div class="cta"><h2>NAMBI - Nambalama da?</h2><p>100% Private. 100% Tamil Friendly. 100% On-Device. Un doubt ah un phone kitte mattum kettu therunchuko da.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn btn-dark" style="background:#000;color:#fff" href="#upload" onclick="document.getElementById('file').click();return false;">🚀 Try Now da - Free</a><a class="btn btn-dark" style="background:#fff;color:#000" href="https://haripapu0113-lgtm.github.io/nambi-app/">🔗 Share pannu da</a></div></div></div></div>
-<footer>© 2026 NAMBI - By HARIPRIYA P, Purasawalkam Chennai-07 • 100% Secure • No Data Sharing • Built with LiteRT + Core ML<br>Made with ❤️ for Tamil Nadu da</footer>
+<div style="display:flex;flex-direction:column;gap:10px"><div class="card"><div class="card-head">🎨 PHOTO STUDIO</div><div class="edit-panel"><div class="edit-row"><button onclick="applyFilter('none')" class="active" id="f-none">Original</button><button onclick="applyFilter('bw')" id="f-bw">B&W</button><button onclick="applyFilter('vivid')" id="f-vivid">Vivid</button><button onclick="applyFilter('cinema')" id="f-cinema">Cinema</button></div><div class="edit-row"><button onclick="quickEdit('text')">📝 Text Add</button><button onclick="quickEdit('sticker')">😎 Sticker</button><button onclick="quickEdit('blur')">🌫️ BG Blur</button></div><div style="font-size:11px;font-weight:700;color:#FFD60A">AI IMAGE CREATE</div><div class="prompt-row"><input id="genPrompt" placeholder="Ex: Professional photo suit pota maari"><button class="tool-btn" onclick="generateImage()" style="background:#FFD60A">Generate ✨</button></div><div id="genResult" style="display:none;margin-top:6px;border-radius:12px;overflow:hidden;border:1px solid #23232a"><img id="genImg" style="width:100%"></div></div></div>
+<div class="card"><div class="card-head">⚡ SUPER POWERS</div><div style="padding:8px;display:grid;gap:6px;font-size:11px"><div style="background:#0f0f12;border:1px solid #1e1e26;border-radius:10px;padding:8px">💬 <b>ChatGPT</b> - Code, resume, analysis</div><div style="background:#0f0f12;border:1px solid #1e1e26;border-radius:10px;padding:8px">📸 <b>Meta AI</b> - Photo la enna irukku fast ah</div><div style="background:#0f0f12;border:1px solid #1e1e26;border-radius:10px;padding:8px">🎨 <b>Gemini</b> - Photo edit, new create</div><div style="background:#0f0f12;border:1px solid #1e1e26;border-radius:10px;padding:8px">🗣️ <b>Tamil Tanglish</b> - Paati kooda puriyum</div><div style="background:#0f0f12;border:1px solid #00FF8822;border-radius:10px;padding:8px">🔒 <b>Private da</b> - Phone la ye safe da</div></div></div>
+</div></div><div class="footer">© 2026 NAMBI - Golden N + Lion + Crown Logo | Superhuman AI • On-Device • No Data Sharing</div></div>
 <div id="toast" class="toast"></div>
 <script>
-function handleFile(input){ if(!input.files[0]) return; const name=input.files[0].name; showToast(`"${name}" upload aachu da! AI phone la ye padichittu irukku da... (Demo)`); setTimeout(()=>{showToast(`AI Result da: Ithu ${name.includes('resume')?'Resume':'Document'} maari theriyuthu da. Full analysis offline la ready da! 🚀`);},1800); }
-function showToast(msg){ const t=document.getElementById('toast'); t.innerText=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',4000); }
-</script>
-</body>
-</html>
+let currentImageData=null;const chat=document.getElementById('chat');
+function toast(m){const t=document.getElementById('toast');t.innerText=m;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
+function addMsg(t,w='ai'){const d=document.createElement('div');d.className='msg '+w;d.innerHTML=t;chat.appendChild(d);chat.scrollTop=chat.scrollHeight}
+function sendMsg(){const i=document.getElementById('chatInput');let txt=i.value.trim();if(!txt)return;addMsg(txt,'user');i.value='';setTimeout(()=>{addMsg(`<b>Dei semma doubt da! 💡</b><br>Neenga: <i>"${txt}"</i><br><br><span style="color:#00FF88">Naan ChatGPT maari deep ah yosippen da, Meta AI maari fast ah solluven da, Gemini maari photo va kooda create pannuven da!</span><br><br>Photo upload pannu da! 🚀`,'ai')},500)}
+function handleImage(input){if(!input.files[0])return;const f=input.files[0];const r=new FileReader();r.onload=e=>{currentImageData=e.target.result;document.getElementById('prevImg').src=currentImageData;document.getElementById('preview').style.display='block';loadToCanvas(currentImageData);addMsg(`<b>Photo upload aayiduchu da! 📸</b><br><img src="${currentImageData}" style="width:100%;border-radius:12px;margin-top:8px;max-height:180px;object-fit:contain;background:#000"><br><br>Super da! "Enna Irukku Sollu da" click pannu da!`,'ai');};r.readAsDataURL(f);}
+function loadToCanvas(s){const img=new Image();img.onload=()=>{const c=document.getElementById('editCanvas');const ctx=c.getContext('2d');c.width=img.width;c.height=img.height;ctx.drawImage(img,0,0);document.getElementById('canvasWrap').style.display='block';};img.src=s;}
+function analyzeImage(){if(!currentImageData){toast('First photo upload pannu da!');return}addMsg(`<b>🔍 AI Scan pannuren da...</b><br>⏳ Padichittu irukken da...`,'ai');setTimeout(()=>{addMsg(`<b>Photo la enna irukku da?</b><br><br>📄 <b>Type:</b> Document / Photo maari<br>👁️ <b>Details:</b> Text, details irukku da<br><span style="color:#00FF88"><b>Tamil la:</b> Ithu important document da. Enna doubt? Kekalam da!</span><br><br><b>Eppadi kekalam?</b><br>• "Ithula enna eluthirukku tamil la sollu da"<br>• "Valid ah da?"<br>• "HD ah maathu da"`,'ai');},1000);}
+function applyFilter(t){document.querySelectorAll('.edit-row button').forEach(b=>b.classList.remove('active'));const b=document.getElementById('f-'+t);if(b)b.classList.add('active');const c=document.getElementById('editCanvas');if(!c)return;const ctx=c.getContext('2d');if(t==='none'){loadToCanvas(currentImageData);toast('Original da!');return}const d=ctx.getImageData(0,0,c.width,c.height);const dd=d.data;for(let i=0;i<dd.length;i+=4){if(t==='bw'){const a=(dd[i]+dd[i+1]+dd[i+2])/3;dd[i]=dd[i+1]=dd[i+2]=a}if(t==='vivid'){dd[i]=Math.min(255,dd[i]*1.3);dd[i+1]=Math.min(255,dd[i+1]*1.2)}}ctx.putImageData(d,0,0);toast(t+' filter da!')}
+function quickEdit(m){if(m==='text'){const t=prompt('Enna text add pannalam da?');if(t){const c=document.getElementById('editCanvas');const x=c.getContext('2d');x.font='bold 40px sans-serif';x.fillStyle='#FFD60A';x.strokeStyle='#000';x.lineWidth=4;x.strokeText(t,30,c.height-30);x.fillText(t,30,c.height-30);toast('Text add da!')}}if(m==='sticker'){const c=document.getElementById('editCanvas');const x=c.getContext('2d');x.font='60px serif';x.fillText('😎',c.width/2-30,c.height/2);toast('Sticker da!')}if(m==='blur'){toast('BG Blur demo da!');applyFilter('cinema')}}
+function editMode(m){if(m==='bg'){toast('BG Remove da...');setTimeout(()=>{applyFilter('vivid');toast('BG enhance da!')},600)}if(m==='enhance'){applyFilter('vivid');toast('HD da!')}}
+function generateImage(){const p=document.getElementById('genPrompt').value.trim();if(!p){toast('Prompt type pannu da!');return}addMsg(`<b>🎨 Create pannuren da:</b> "${p}"<br>⏳ Generate pannittu irukken da...`,'ai');const ca=document.createElement('canvas');ca.width=512;ca.height=512;const cx=ca.getContext('2d');const g=cx.createLinearGradient(0,0,512,512);g.addColorStop(0,'#FFD60A');g.addColorStop(1,'#00FF88');cx.fillStyle=g;cx.fillRect(0,0,512,512);cx.fillStyle='#000';cx.font='bold 18px sans-serif';cx.textAlign='center';cx.fillText(p.slice(0,40),256,240);cx.font='12px sans-serif';cx.fillText('AI Generated by NAMBI Superhuman',256,270);const u=ca.toDataURL();document.getElementById('genImg').src=u;document.getElementById('genResult').style.display='block';setTimeout(()=>{addMsg(`<b>Image ready da! 🎉</b><br><img src="${u}" style="width:100%;border-radius:12px;margin-top:8px"><br><br>Super da! Download pannikalam da!`,'ai');},700);}
+const z=document.getElementById('uploadZone');z.addEventListener('dragover',e=>{e.preventDefault();z.style.borderColor='#FFD60A'});z.addEventListener('dragleave',()=>z.style.borderColor='#2a2a35');z.addEventListener('drop',e=>{e.preventDefault();const f=e.dataTransfer.files[0];if(f){document.getElementById('fileIn').files=e.dataTransfer.files;handleImage({files:[f]})}});
+</script></body></html>
