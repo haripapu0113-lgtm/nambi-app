@@ -2,6 +2,7 @@
 services:
   ollama:
     image: ollama/ollama:latest
+    container_name: nambi-ollama
     volumes:
       - nambi_models:/root/.ollama
     restart: unless-stopped
@@ -14,17 +15,21 @@ services:
 
   model-init:
     image: ollama/ollama:latest
+    container_name: nambi-model-init
     depends_on:
       ollama:
         condition: service_healthy
-    volumes:
-      - nambi_models:/root/.ollama
+    environment:
+      OLLAMA_HOST: http://ollama:11434
     entrypoint: ["ollama"]
     command: ["pull", "qwen2.5:1.5b"]
     restart: "no"
 
   nambi-server:
-    build: ./server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: nambi-server
     ports:
       - "3000:3000"
     environment:
