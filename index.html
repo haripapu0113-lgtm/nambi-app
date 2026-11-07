@@ -34,6 +34,7 @@ h1 span{color:var(--gold)}
 .upload{border:2px dashed #444;border-radius:15px;padding:25px;text-align:center;cursor:pointer}
 .upload:hover{border-color:var(--gold)}
 button{cursor:pointer;border:0;border-radius:30px;padding:9px 14px;font-weight:700;font-size:11px}
+button:disabled{opacity:.5;cursor:not-allowed}
 .gold{background:var(--gold);color:#000}
 .dark{background:#292930;color:white;border:1px solid #444}
 input{background:#1a1a20;color:white;border:1px solid #333;border-radius:30px;padding:11px 14px;outline:none;min-width:0}
@@ -42,7 +43,7 @@ input{background:#1a1a20;color:white;border:1px solid #333;border-radius:30px;pa
 .tools,.inputrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
 .tools button{flex:1}
 .chat{background:var(--panel);border:1px solid #292933;border-radius:17px;overflow:hidden}
-.chathead{padding:12px;border-bottom:1px solid #292933;font-size:12px;font-weight:bold}
+.chathead{padding:12px;border-bottom:1px solid #292933;font-size:12px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .chatarea{height:350px;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:9px}
 .msg{padding:10px 12px;border-radius:13px;max-width:88%;font-size:13px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
 .user{align-self:flex-end;background:var(--gold);color:black}
@@ -52,7 +53,7 @@ input{background:#1a1a20;color:white;border:1px solid #333;border-radius:30px;pa
 canvas{width:100%;height:auto;border-radius:10px;background:#111}
 .privacy{font-size:11px;color:#bbb;line-height:1.7}
 .footer{text-align:center;color:#666;font-size:10px;padding:20px;border-top:1px solid #222;margin-top:25px}
-#toast{display:none;position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:white;color:black;padding:10px 16px;border-radius:30px;z-index:10;font-size:12px}
+#toast{display:none;position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:white;color:black;padding:10px 16px;border-radius:30px;z-index:10;font-size:12px;max-width:90%;text-align:center}
 @media(max-width:600px){.grid{grid-template-columns:1fr}h1{font-size:34px}.hero img{width:130px;height:130px}}
 </style>
 </head>
@@ -97,12 +98,12 @@ Tamil • English • Tanglish
 <p>Apply image filters and download edited pictures.</p>
 </div>
 <div class="card">
-<h3>🧠 ADAPTIVE AI - FUTURE DEVELOPMENT</h3>
-<p>Build NAMBI's own intelligent model and personalization system.</p>
+<h3>🧠 INDEPENDENT AI</h3>
+<p>NAMBI uses its own configured AI backend and open model.</p>
 </div>
 <div class="card">
 <h3>🔒 PRIVACY CONTROLS</h3>
-<p>Control locally stored memory and feedback.</p>
+<p>Chat history stays in the current browser session only.</p>
 </div>
 <div class="card">
 <h3>🗣️ MULTILINGUAL</h3>
@@ -112,20 +113,22 @@ Tamil • English • Tanglish
 
 <section class="area">
 <div class="box">
-<h3 style="color:#FFD60A;margin-bottom:10px">🔒 PRIVACY SETTINGS</h3>
+<h3 style="color:#FFD60A;margin-bottom:10px">🔒 PRIVACY INFORMATION</h3>
 <p class="privacy">
-This prototype uses browser-based libraries. Selected external libraries
-and model files may be downloaded from their providers.
-Uploaded files are processed locally by the features in this prototype.
-No AI cloud service is connected yet.
-Memory and feedback are stored in this browser only.
+Chat messages are sent to the NAMBI backend for AI processing.
+This version does not intentionally save chat history in browser
+local storage. Temporary chat history exists only in this page session.
+The hosting provider and AI server may process technical request data.
+Uploaded images and PDFs are processed in this browser by the
+selected document tools. External libraries are downloaded from
+their providers. Do not upload sensitive personal documents.
 </p>
 <div class="tools">
-<button class="gold" onclick="setConsent(true)">Allow Memory</button>
-<button class="dark" onclick="setConsent(false)">Disable Memory</button>
-<button class="dark" onclick="deleteData()">Delete My Data</button>
+<button class="dark" onclick="clearChat()">Clear Chat</button>
 </div>
-<p id="consentStatus" class="privacy" style="margin-top:8px"></p>
+<p class="privacy" style="margin-top:8px">
+Chat memory: Session only. Reloading or closing this page clears it.
+</p>
 </div>
 </section>
 
@@ -162,19 +165,25 @@ Memory and feedback are stored in this browser only.
 <div class="box">
 <h3 style="color:#FFD60A;margin-bottom:10px">🧠 NAMBI CHAT</h3>
 <div class="chat">
-<div class="chathead">NAMBI - LOCAL PROTOTYPE</div>
+<div class="chathead">
+<span id="chatStatus">NAMBI - AI CONNECTION NOT CONFIGURED</span>
+<button class="dark" onclick="checkBackend()">Check</button>
+</div>
 <div class="chatarea" id="chat">
-<div class="msg ai">Vanakkam! 🙏 Naan NAMBI AI project prototype.
+<div class="msg ai">Vanakkam! 🙏 Welcome to NAMBI AI.
 
 Tamil, English, Tanglish la message anuppunga.
 
-Note: Ippo basic local logic mattum work aagum. Full AI model innum connect pannala.</div>
+AI backend hosting complete ஆன பிறகு உண்மையான AI பதில்கள் கிடைக்கும்.</div>
 </div>
 <div class="inputrow" style="padding:10px;margin:0">
-<input id="message" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendMessage()">
-<button class="gold" onclick="sendMessage()">Send ➤</button>
+<input id="message" placeholder="Type your message..." maxlength="10000">
+<button class="gold" id="sendButton" onclick="sendMessage()">Send ➤</button>
 </div>
 </div>
+<p class="privacy" style="margin-top:8px">
+Your message is sent to the configured NAMBI AI server for processing.
+</p>
 </div>
 </section>
 
@@ -183,7 +192,7 @@ Note: Ippo basic local logic mattum work aagum. Full AI model innum connect pann
 <h3 style="color:#FFD60A">💬 FEEDBACK</h3>
 <div class="inputrow">
 <input id="feedback" placeholder="Share your feedback">
-<button class="gold" onclick="saveFeedback()">Save</button>
+<button class="gold" onclick="saveFeedback()">Add</button>
 <button class="dark" onclick="exportFeedback()">Export</button>
 </div>
 <div id="feedbackList" class="privacy" style="margin-top:10px"></div>
@@ -201,248 +210,426 @@ Note: Ippo basic local logic mattum work aagum. Full AI model innum connect pann
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-let currentImage=null;
-let originalImage=null;
-let memory=[];
-let consent=localStorage.getItem("nambi_consent")==="true";
+/*
+  IMPORTANT:
+  After backend hosting, replace this value with your real backend URL.
+  Example format: https://your-service.example.com
+  Do not include /api/chat at the end.
+*/
+const API_BASE = "https://YOUR-BACKEND-URL";
 
-const chat=document.getElementById("chat");
+let currentImage = null;
+let originalImage = null;
 
-function toast(text){
-const t=document.getElementById("toast");
-t.textContent=text;
-t.style.display="block";
-setTimeout(()=>t.style.display="none",2500);
+// Chat history is kept in page memory only.
+let chatHistory = [];
+
+// Feedback is kept in page memory only.
+let feedbackItems = [];
+
+let sending = false;
+
+const chat = document.getElementById("chat");
+
+function toast(text) {
+  const t = document.getElementById("toast");
+  t.textContent = text;
+  t.style.display = "block";
+
+  setTimeout(() => {
+    t.style.display = "none";
+  }, 2500);
 }
 
-function addMessage(text,type="ai"){
-const div=document.createElement("div");
-div.className="msg "+type;
-div.textContent=text;
-chat.appendChild(div);
-chat.scrollTop=chat.scrollHeight;
+function addMessage(text, type = "ai") {
+  const div = document.createElement("div");
+  div.className = "msg " + type;
+  div.textContent = text;
+
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-function updateConsent(){
-document.getElementById("consentStatus").textContent=
-consent?"Memory enabled on this browser":"Memory disabled";
-memory=consent?JSON.parse(localStorage.getItem("nambi_memory")||"[]"):[];
-}
-updateConsent();
+function clearChat() {
+  chatHistory = [];
+  chat.innerHTML = "";
 
-function setConsent(value){
-consent=value;
-localStorage.setItem("nambi_consent",String(value));
-if(!value){
-localStorage.removeItem("nambi_memory");
-memory=[];
-}
-updateConsent();
-toast(value?"Memory enabled":"Memory disabled");
+  addMessage(
+    "NAMBI chat cleared. Vanakkam! 🙏 How can I help you?"
+  );
+
+  toast("Session chat cleared");
 }
 
-function deleteData(){
-localStorage.removeItem("nambi_memory");
-localStorage.removeItem("nambi_feedback");
-localStorage.removeItem("nambi_consent");
-memory=[];
-consent=false;
-updateConsent();
-renderFeedback();
-toast("Local NAMBI data deleted");
+function getBackendURL() {
+  if (
+    !API_BASE ||
+    API_BASE.includes("YOUR-BACKEND-URL")
+  ) {
+    throw new Error("NAMBI backend hosting URL is not configured yet.");
+  }
+
+  return API_BASE.replace(/\/+$/, "");
 }
 
-function saveMemory(user,reply){
-if(!consent)return;
-memory.push({user,reply,time:Date.now()});
-memory=memory.slice(-20);
-localStorage.setItem("nambi_memory",JSON.stringify(memory));
+async function checkBackend() {
+  const status = document.getElementById("chatStatus");
+
+  try {
+    const base = getBackendURL();
+
+    status.textContent = "Checking NAMBI server...";
+
+    const response = await fetch(base + "/api/health", {
+      method: "GET",
+      signal: AbortSignal.timeout(12000)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || data.status !== "online") {
+      status.textContent = "NAMBI AI NOT READY";
+      toast("Backend or AI model is not ready");
+      return;
+    }
+
+    status.textContent = "● NAMBI AI ONLINE";
+    toast("NAMBI backend connected");
+
+  } catch (error) {
+    status.textContent = "● NOT CONNECTED";
+    toast(error.message || "Cannot connect to NAMBI server");
+  }
 }
 
-function localReply(text){
-const q=text.toLowerCase();
+async function sendMessage() {
+  if (sending) return;
 
-if(/hello|hi|vanakkam/.test(q))
-return "Vanakkam! 🙏 Welcome to NAMBI. How can I help you today?";
+  const input = document.getElementById("message");
+  const button = document.getElementById("sendButton");
 
-if(/privacy|safe|data/.test(q))
-return "NAMBI prototype stores optional memory and feedback in this browser. External libraries may be downloaded. No AI cloud model is connected yet.";
+  const text = input.value.trim();
 
-if(/tamil|தமிழ்/.test(q))
-return "நிச்சயமாக! தமிழில் பேசலாம். உங்களுக்கு என்ன உதவி வேண்டும்?";
+  if (!text) return;
 
-if(/pdf|document|bill|offer/.test(q))
-return "உங்கள் PDF-ஐ upload செய்யுங்கள். அதில் உள்ள text-ஐ வாசிக்க உதவுகிறேன்.";
+  if (text.length > 10000) {
+    toast("Message is too long");
+    return;
+  }
 
-if(/image|photo|picture/.test(q))
-return "படத்தை upload செய்யுங்கள். OCR மற்றும் image editing features பயன்படுத்தலாம்.";
+  addMessage(text, "user");
+  input.value = "";
 
-return "உங்கள் கேள்வியைப் பெற்றேன். இது NAMBI-யின் ஆரம்ப prototype. தற்போது local keyword logic மட்டுமே பதிலளிக்கிறது. உண்மையான intelligent AI model அடுத்த கட்டத்தில் இணைக்கப்படும்.";
+  sending = true;
+  button.disabled = true;
+  button.textContent = "Thinking...";
+
+  try {
+    const base = getBackendURL();
+
+    const response = await fetch(base + "/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text,
+        history: chatHistory.slice(-10)
+      }),
+      signal: AbortSignal.timeout(130000)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "NAMBI AI request failed"
+      );
+    }
+
+    if (
+      typeof data.reply !== "string" ||
+      !data.reply.trim()
+    ) {
+      throw new Error("NAMBI returned an empty response");
+    }
+
+    addMessage(data.reply, "ai");
+
+    // Only successful conversation turns stay in this page session.
+    chatHistory.push(
+      { role: "user", content: text },
+      { role: "assistant", content: data.reply }
+    );
+
+    chatHistory = chatHistory.slice(-10);
+
+    document.getElementById("chatStatus").textContent =
+      "● NAMBI AI CONNECTED";
+
+  } catch (error) {
+    addMessage(
+      "NAMBI AI is not available right now.\n\n" +
+      (error.message || "Please try again later."),
+      "ai"
+    );
+  } finally {
+    sending = false;
+    button.disabled = false;
+    button.textContent = "Send ➤";
+  }
 }
 
-function sendMessage(){
-const input=document.getElementById("message");
-const text=input.value.trim();
-if(!text)return;
+document.getElementById("message").addEventListener(
+  "keydown",
+  event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendMessage();
+    }
+  }
+);
 
-addMessage(text,"user");
-input.value="";
+document.getElementById("file").addEventListener(
+  "change",
+  async event => {
+    const file = event.target.files[0];
 
-const reply=localReply(text);
-setTimeout(()=>{
-addMessage(reply,"ai");
-saveMemory(text,reply);
-},250);
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast("Maximum file size is 10 MB");
+      event.target.value = "";
+      return;
+    }
+
+    document.getElementById("documentText").textContent = "";
+
+    if (file.type.startsWith("image/")) {
+      currentImage = file;
+
+      const reader = new FileReader();
+
+      reader.onload = event => {
+        originalImage = event.target.result;
+
+        document.getElementById("previewImg").src =
+          originalImage;
+
+        document.getElementById("preview").style.display =
+          "block";
+
+        loadCanvas(originalImage);
+      };
+
+      reader.readAsDataURL(file);
+
+    } else if (
+      file.type === "application/pdf" ||
+      file.name.toLowerCase().endsWith(".pdf")
+    ) {
+      document.getElementById("preview").style.display =
+        "none";
+
+      await readPDF(file);
+
+    } else {
+      toast("Unsupported file type");
+    }
+  }
+);
+
+async function scanImage() {
+  if (!currentImage) return;
+
+  toast("OCR processing...");
+
+  try {
+    const result = await Tesseract.recognize(
+      currentImage,
+      "eng+tam"
+    );
+
+    const text = result.data.text.trim();
+
+    document.getElementById("documentText").textContent =
+      text || "No readable text found.";
+
+    addMessage(
+      "Image OCR result:\n" +
+      (text || "No readable text found.")
+    );
+
+  } catch (error) {
+    toast("OCR failed");
+  }
 }
 
-document.getElementById("file").addEventListener("change",async e=>{
-const file=e.target.files[0];
-if(!file)return;
+async function readPDF(file) {
+  try {
+    toast("Reading PDF...");
 
-if(file.size>10*1024*1024){
-toast("Maximum file size is 10 MB");
-return;
+    const buffer = await file.arrayBuffer();
+
+    const pdf = await pdfjsLib.getDocument({
+      data: buffer
+    }).promise;
+
+    let text = "";
+
+    for (
+      let i = 1;
+      i <= Math.min(pdf.numPages, 10);
+      i++
+    ) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+
+      text += "Page " + i + ":\n" +
+        content.items.map(item => item.str).join(" ") +
+        "\n\n";
+    }
+
+    document.getElementById("documentText").textContent =
+      text || "No selectable text found. Scanned PDF OCR is not yet supported.";
+
+    addMessage(
+      "PDF reading result:\n" +
+      (text || "No selectable text found.")
+    );
+
+  } catch (error) {
+    toast("PDF reading failed");
+  }
 }
 
-if(file.type.startsWith("image/")){
-currentImage=file;
-const reader=new FileReader();
-reader.onload=event=>{
-originalImage=event.target.result;
-document.getElementById("previewImg").src=originalImage;
-document.getElementById("preview").style.display="block";
-loadCanvas(originalImage);
-};
-reader.readAsDataURL(file);
-}else if(file.type==="application/pdf"){
-readPDF(file);
-}else{
-toast("Unsupported file type");
-}
-});
+function loadCanvas(src) {
+  const img = new Image();
 
-async function scanImage(){
-if(!currentImage)return;
-toast("OCR processing...");
+  img.onload = () => {
+    const c = document.getElementById("canvas");
+    const ctx = c.getContext("2d");
 
-try{
-const result=await Tesseract.recognize(currentImage,"eng+tam");
-const text=result.data.text.trim();
-document.getElementById("documentText").textContent=
-text||"No readable text found.";
-addMessage("Image OCR result:\n"+(text||"No readable text found."));
-}catch(error){
-toast("OCR failed: "+error.message);
-}
+    const scale = Math.min(
+      1,
+      1600 / Math.max(img.width, img.height)
+    );
+
+    c.width = Math.round(img.width * scale);
+    c.height = Math.round(img.height * scale);
+
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+
+    document.getElementById("canvasBox").style.display =
+      "block";
+  };
+
+  img.src = src;
 }
 
-async function readPDF(file){
-try{
-toast("Reading PDF...");
-const buffer=await file.arrayBuffer();
-const pdf=await pdfjsLib.getDocument({data:buffer}).promise;
-let text="";
+function filterImage(type) {
+  if (!originalImage) return;
 
-for(let i=1;i<=Math.min(pdf.numPages,10);i++){
-const page=await pdf.getPage(i);
-const content=await page.getTextContent();
-text+="Page "+i+":\n"+
-content.items.map(item=>item.str).join(" ")+"\n\n";
+  loadCanvas(originalImage);
+
+  if (type === "original") return;
+
+  const c = document.getElementById("canvas");
+  const ctx = c.getContext("2d");
+
+  const data = ctx.getImageData(
+    0, 0, c.width, c.height
+  );
+
+  const d = data.data;
+
+  for (let i = 0; i < d.length; i += 4) {
+    if (type === "bw") {
+      const gray = (
+        d[i] + d[i + 1] + d[i + 2]
+      ) / 3;
+
+      d[i] = d[i + 1] = d[i + 2] = gray;
+    }
+
+    if (type === "vivid") {
+      d[i] = Math.min(255, d[i] * 1.2);
+      d[i + 1] = Math.min(255, d[i + 1] * 1.1);
+      d[i + 2] = Math.min(255, d[i + 2] * 1.1);
+    }
+  }
+
+  ctx.putImageData(data, 0, 0);
 }
 
-document.getElementById("documentText").textContent=
-text||"No selectable text found. Scanned PDF OCR is not yet supported.";
+function downloadImage() {
+  const c = document.getElementById("canvas");
 
-addMessage("PDF reading result:\n"+(text||"No selectable text found."));
-}catch(error){
-toast("PDF error: "+error.message);
-}
-}
-
-function loadCanvas(src){
-const img=new Image();
-img.onload=()=>{
-const c=document.getElementById("canvas");
-const ctx=c.getContext("2d");
-const scale=Math.min(1,1600/Math.max(img.width,img.height));
-c.width=Math.round(img.width*scale);
-c.height=Math.round(img.height*scale);
-ctx.drawImage(img,0,0,c.width,c.height);
-document.getElementById("canvasBox").style.display="block";
-};
-img.src=src;
+  const a = document.createElement("a");
+  a.download = "nambi-image.png";
+  a.href = c.toDataURL("image/png");
+  a.click();
 }
 
-function filterImage(type){
-if(!originalImage)return;
-loadCanvas(originalImage);
-if(type==="original")return;
+async function removeBG() {
+  if (!currentImage) {
+    toast("Upload an image first");
+    return;
+  }
 
-const c=document.getElementById("canvas");
-const ctx=c.getContext("2d");
-const data=ctx.getImageData(0,0,c.width,c.height);
-const d=data.data;
+  toast("Background removal is not connected yet");
 
-for(let i=0;i<d.length;i+=4){
-if(type==="bw"){
-const gray=(d[i]+d[i+1]+d[i+2])/3;
-d[i]=d[i+1]=d[i+2]=gray;
-}
-if(type==="vivid"){
-d[i]=Math.min(255,d[i]*1.2);
-d[i+1]=Math.min(255,d[i+1]*1.1);
-d[i+2]=Math.min(255,d[i+2]*1.1);
-}
-}
-ctx.putImageData(data,0,0);
+  addMessage(
+    "Background removal requires a separate image-processing model. It is not active yet."
+  );
 }
 
-function downloadImage(){
-const c=document.getElementById("canvas");
-const a=document.createElement("a");
-a.download="nambi-image.png";
-a.href=c.toDataURL("image/png");
-a.click();
+function saveFeedback() {
+  const input = document.getElementById("feedback");
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  feedbackItems.push({
+    text,
+    time: new Date().toISOString()
+  });
+
+  input.value = "";
+  renderFeedback();
+
+  toast("Feedback added for this session");
 }
 
-async function removeBG(){
-if(!currentImage){
-toast("Upload an image first");
-return;
-}
-toast("Background removal library not connected in this version");
-addMessage("Background removal requires the separate model integration. It is not active in this prototype.");
-}
+function renderFeedback() {
+  const el = document.getElementById("feedbackList");
 
-function saveFeedback(){
-const input=document.getElementById("feedback");
-const text=input.value.trim();
-if(!text)return;
-
-let list=JSON.parse(localStorage.getItem("nambi_feedback")||"[]");
-list.push({text,time:new Date().toISOString()});
-localStorage.setItem("nambi_feedback",JSON.stringify(list));
-input.value="";
-renderFeedback();
-toast("Feedback saved on this browser");
+  el.textContent = feedbackItems
+    .map((item, index) =>
+      (index + 1) + ". " + item.text
+    )
+    .join("\n");
 }
 
-function renderFeedback(){
-const list=JSON.parse(localStorage.getItem("nambi_feedback")||"[]");
-const el=document.getElementById("feedbackList");
-el.textContent=list.map((x,i)=>(i+1)+". "+x.text).join("\n");
-}
-renderFeedback();
+function exportFeedback() {
+  if (!feedbackItems.length) {
+    toast("No feedback to export");
+    return;
+  }
 
-function exportFeedback(){
-const data=localStorage.getItem("nambi_feedback")||"[]";
-const blob=new Blob([data],{type:"application/json"});
-const url=URL.createObjectURL(blob);
-const a=document.createElement("a");
-a.href=url;
-a.download="nambi-feedback.json";
-a.click();
-URL.revokeObjectURL(url);
+  const blob = new Blob(
+    [JSON.stringify(feedbackItems, null, 2)],
+    { type: "application/json" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "nambi-feedback.json";
+  a.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 </script>
