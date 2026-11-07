@@ -1,9 +1,27 @@
+
 services:
   ollama:
     image: ollama/ollama:latest
     volumes:
       - nambi_models:/root/.ollama
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  model-init:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    volumes:
+      - nambi_models:/root/.ollama
+    entrypoint: ["ollama"]
+    command: ["pull", "qwen2.5:1.5b"]
+    restart: "no"
 
   nambi-server:
     build: ./server
@@ -13,10 +31,12 @@ services:
       PORT: 3000
       OLLAMA_URL: http://ollama:11434
       NAMBI_MODEL: qwen2.5:1.5b
-      ALLOWED_ORIGIN: https://haripapu0113-lgtm.github.io
+      ALLOWED_ORIGINS: https://haripapu0113-lgtm.github.io
     depends_on:
-      - ollama
+      model-init:
+        condition: service_completed_successfully
     restart: unless-stopped
 
 volumes:
   nambi_models:
+  
